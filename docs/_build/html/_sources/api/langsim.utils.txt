@@ -1,0 +1,26 @@
+langsim\.utils package
+======================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    langsim.utils.faiss
+    langsim.utils.spsim
+
+Submodules
+----------
+
+.. toctree::
+
+   langsim.utils.kirshenbaum
+   langsim.utils.plotting
+
+Module contents
+---------------
+
+.. automodule:: langsim.utils
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+langsim\.utils\.plotting module
+===============================
+
+.. automodule:: langsim.utils.plotting
+    :members:
+    :undoc-members:
+    :show-inheritance:

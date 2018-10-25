@@ -1,0 +1,17 @@
+Phoneme pair weights
+~~~~~~~~~~~~~~~~~~~~
+
+
+.. py:module:: langsim.modules.cognates.phoneme_pair_weights
+
+
+Fetch phoneme pair weights from different initialization methods and present them to
+cognate identification in a consistent way.
+
+
+.. toctree::
+   :maxdepth: 2
+   :titlesonly:
+
+   langsim.modules.cognates.phoneme_pair_weights.embedding_sim
+   langsim.modules.cognates.phoneme_pair_weights.overlap

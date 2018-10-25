@@ -1,0 +1,18 @@
+langsim\.utils\.faiss package
+=============================
+
+Submodules
+----------
+
+.. toctree::
+
+   langsim.utils.faiss.csls
+   langsim.utils.faiss.deps
+
+Module contents
+---------------
+
+.. automodule:: langsim.utils.faiss
+    :members:
+    :undoc-members:
+    :show-inheritance:

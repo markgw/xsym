@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Neural sixgram (Xsym) trainer, v2 &mdash; Xsym training 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Xsym training 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Symbol embedding methods" href="langsim.modules.local_lm.html" />
+    <link rel="next" title="Neural sixgram samples prep" href="langsim.modules.local_lm.neural_sixgram_samples.html" />
+    <link rel="prev" title="Neural sixgram (Xsym) trainer, v1" href="langsim.modules.local_lm.neural_sixgram.html" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body role="document">
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.local_lm.neural_sixgram_samples.html" title="Neural sixgram samples prep"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.local_lm.neural_sixgram.html" title="Neural sixgram (Xsym) trainer, v1"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="langsim.modules.html" >Pimlico modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="langsim.modules.local_lm.html" accesskey="U">Symbol embedding methods</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-langsim.modules.local_lm.neural_sixgram2">
+<span id="neural-sixgram-xsym-trainer-v2"></span><h1>Neural sixgram (Xsym) trainer, v2<a class="headerlink" href="#module-langsim.modules.local_lm.neural_sixgram2" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Path</td>
+<td>langsim.modules.local_lm.neural_sixgram2</td>
+</tr>
+<tr class="row-even"><td>Executable</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p>A special kind of six-gram model that combines 1-3 characters on the left with 1-3 characters on the right
+to learn unigram, bigram and trigram representations.</p>
+<p>This is one of the most successful representation learning methods among those here. It&#8217;s also very robust
+across language pairs and different sizes of dataset. It&#8217;s therefore the model that I&#8217;ve opted to use in
+subsequent work that uses the learned representations.</p>
+<p>This is a new version of the code for the model training. It will include random restarts and
+early stopping using the new validation criterion. I&#8217;ve moved to a new version so that I can get rid
+of old things from experiments with different types of models and clean up the code. The old version
+was used to measure the validity of the validation criterion. From now on, I&#8217;m using the
+validation criterion in earnest.</p>
+<p>I&#8217;m now changing all default parameters to those use in the submitted paper and removing some parameters
+for features that no longer need to be parameterized.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>A note on using GPUs</p>
+<p>We use Keras to train. If you&#8217;re using the tensorflow backend (which is what is assumed
+by this module&#8217;s dependencies) and you want to use GPUs, you&#8217;ll need to install the GPU
+version of Tensorflow, not just &#8220;tensorflow&#8221;, which will be installed during dependency
+resolution. Try this (changing the virtualenv directory name if you&#8217;re not using the
+default):</p>
+<div class="last highlight-python"><div class="highlight"><pre>./pimlico/lib/virtualenv/default/bin/pip install --upgrade tensorflow-gpu
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><em>Changed 12.09.18</em>: this module takes prepared positive sample data as input instead of
+doing the preparation (random shuffling, etc) during training. I found a bug that meant
+that we weren&#8217;t training on the full datasets, so training actually takes much longer
+than it seemed. It&#8217;s therefore important not to waste time redoing data processing on
+each training epoch.</p>
+<p class="last">Some pipelines that were written before this change will no longer work, but they&#8217;re
+quite simple to fix. Add an extra data preparation module before the training module,
+taking the inputs and parameters from the training module as appropriate (and removing
+some of them from there).</p>
+</div>
+<div class="section" id="inputs">
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type(s)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>vocabs</td>
+<td><code class="xref py py-class docutils literal"><span class="pre">list</span></code> of <code class="xref py py-class docutils literal"><span class="pre">Dictionary</span></code></td>
+</tr>
+<tr class="row-odd"><td>samples</td>
+<td><a class="reference internal" href="../api/langsim.datatypes.neural_sixgram.html#langsim.datatypes.neural_sixgram.NeuralSixgramTrainingData" title="langsim.datatypes.neural_sixgram.NeuralSixgramTrainingData"><code class="xref py py-class docutils literal"><span class="pre">NeuralSixgramTrainingData</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="outputs">
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="92%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type(s)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>model</td>
+<td><code class="xref py py-class docutils literal"><span class="pre">NeuralSixgramKerasModel</span></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="92%" />
+<col width="5%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+<th class="head">Type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>composition3_layers</td>
+<td>Number and size of layers to use to combine triples of characters, given as a list of integers. The final layer must be the same size as the embeddings, so is not included in this list. Default: nothing, i.e. linear transformation</td>
+<td>comma-separated list of ints</td>
+</tr>
+<tr class="row-odd"><td>embedding_size</td>
+<td>Number of dimensions in the hidden representation. Default: 30</td>
+<td>int</td>
+</tr>
+<tr class="row-even"><td>composition_dropout</td>
+<td>Dropout to apply to composed representation during training. Default: 0.01</td>
+<td>float</td>
+</tr>
+<tr class="row-odd"><td>predictor_layers</td>
+<td>Number and size of layers to use to take a pair of vectors and say whether they belong beside each other. Given as a list of integers. Doesn&#8217;t include the final projection to a single score. Default: 30 (single hidden layer)</td>
+<td>comma-separated list of ints</td>
+</tr>
+<tr class="row-even"><td>dropout</td>
+<td>Dropout to apply to embeddings during training. Default: 0.1</td>
+<td>float</td>
+</tr>
+<tr class="row-odd"><td>plot_freq</td>
+<td>Output plots to the output directory while training is in progress. This slows down training if it&#8217;s done very often. Specify how many batches to wait between each plot. Fewer means you get a finer grained picture of the training process, more means training goes faster. -1 turns off plotting. 0 (default) means once at the start/end of each epoch</td>
+<td>int</td>
+</tr>
+<tr class="row-even"><td>patience</td>
+<td>Early stopping patience. Number of epochs with no improvement after which training will be stopped. Default: 2</td>
+<td>int</td>
+</tr>
+<tr class="row-odd"><td>batch</td>
+<td>Training batch size in training samples (pos-neg pairs). Default: 1000</td>
+<td>int</td>
+</tr>
+<tr class="row-even"><td>composition2_layers</td>
+<td>Number and size of layers to use to combine pairs of characters, given as a list of integers. The final layer must be the same size as the embeddings, so is not included in this list. Default: nothing, i.e. linear transformation</td>
+<td>comma-separated list of ints</td>
+</tr>
+<tr class="row-odd"><td>restarts</td>
+<td>How many random restarts to perform. Each time, the model is randomly re-initialized from scratch. All models are saved and the one with the best value of the validation criterion is stored as the output. Default: 1, just train once</td>
+<td>int</td>
+</tr>
+<tr class="row-even"><td>epochs</td>
+<td>Max number of training epochs. Default: 10</td>
+<td>int</td>
+</tr>
+<tr class="row-odd"><td>split_epochs</td>
+<td>Normal behaviour is to iterate over the full dataset once in each epoch, generating random negative samples to accompany it. Early stopping is done using the validation metric over the learned representations after each epoch. With larger datasets, this may mean waiting too long before we start measuring the validation metric. If split_epochs &gt; 1, one epoch involves 1/split_epochs of the data. The following epoch continues iterating over the dataset, so all the data gets used, but the early stopping checks are performed split_epochs times in each iteration over the dataset</td>
+<td>int</td>
+</tr>
+<tr class="row-even"><td>sim_freq</td>
+<td>How often (in batches) to compute the similarity of overlapping phonemes between the languages. -1 (default) means never, 0 means once at the start of each epoch. If input mapped_pairs is given, the similarity is computed between these pairs; otherwise we use any identical pairs that exist between the vocabularies</td>
+<td>int</td>
+</tr>
+<tr class="row-odd"><td>limit_training</td>
+<td>Limit training to this many batches. Default: no limit</td>
+<td>int</td>
+</tr>
+<tr class="row-even"><td>validation</td>
+<td>Number of samples to hold out as a validation set for training. Simply taken from the start of the corpus. Rounded to the nearest number of batches</td>
+<td>int</td>
+</tr>
+<tr class="row-odd"><td>unit_norm</td>
+<td>If true, enforce a unit norm constraint on the learned embeddings. Default: true</td>
+<td>bool</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Neural sixgram (Xsym) trainer, v2</a><ul>
+<li><a class="reference internal" href="#inputs">Inputs</a></li>
+<li><a class="reference internal" href="#outputs">Outputs</a></li>
+<li><a class="reference internal" href="#options">Options</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="langsim.modules.local_lm.neural_sixgram.html"
+                        title="previous chapter">Neural sixgram (Xsym) trainer, v1</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="langsim.modules.local_lm.neural_sixgram_samples.html"
+                        title="next chapter">Neural sixgram samples prep</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.local_lm.neural_sixgram_samples.html" title="Neural sixgram samples prep"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.local_lm.neural_sixgram.html" title="Neural sixgram (Xsym) trainer, v1"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="langsim.modules.html" >Pimlico modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="langsim.modules.local_lm.html" >Symbol embedding methods</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2018, Mark Granroth-Wilding.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+*.pyc
+pimlico/
+.idea/
+pimlico.sh

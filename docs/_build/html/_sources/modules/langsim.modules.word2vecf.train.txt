@@ -1,0 +1,51 @@
+word2vecf trainer
+~~~~~~~~~~~~~~~~~
+
+.. py:module:: langsim.modules.word2vecf.train
+
++------------+---------------------------------+
+| Path       | langsim.modules.word2vecf.train |
++------------+---------------------------------+
+| Executable | yes                             |
++------------+---------------------------------+
+
+Wrapper around `Yoav Goldberg's word2vecf <https://bitbucket.org/yoavgo/word2vecf>`_.
+
+Number of threads used by word2vecf is taken from the ``processes`` option given to Pimlico.
+
+Currently only provides a subset of the command-line options that control training.
+
+
+Inputs
+======
+
++-------+----------------------------------------------------------------------+
+| Name  | Type(s)                                                              |
++=======+======================================================================+
+| input | :class:`Word2VecFInput <langsim.datatypes.word2vecf.Word2VecFInput>` |
++-------+----------------------------------------------------------------------+
+
+Outputs
+=======
+
++--------------------+-------------------------------------------------------+
+| Name               | Type(s)                                               |
++====================+=======================================================+
+| output             | :class:`~langsim.datatypes.word2vecf.Word2VecFOutput` |
++--------------------+-------------------------------------------------------+
+| embeddings         | :class:`~pimlico.datatypes.embeddings.Embeddings`     |
++--------------------+-------------------------------------------------------+
+| context_embeddings | :class:`~pimlico.datatypes.embeddings.Embeddings`     |
++--------------------+-------------------------------------------------------+
+
+Options
+=======
+
++------------------+--------------------------------------------------+------+
+| Name             | Description                                      | Type |
++==================+==================================================+======+
+| negative_samples | Number of negative samples. Default: 5           | int  |
++------------------+--------------------------------------------------+------+
+| size             | Size of vector embeddings to learn. Default: 200 | int  |
++------------------+--------------------------------------------------+------+
+

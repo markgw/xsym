@@ -1,0 +1,24 @@
+Word dict to dict convertor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:module:: langsim.modules.word_dictionary.word_dict_to_dict
+
++------------+---------------------------------------------------+
+| Path       | langsim.modules.word_dictionary.word_dict_to_dict |
++------------+---------------------------------------------------+
+| Executable | yes                                               |
++------------+---------------------------------------------------+
+
+Take a word dictionary (that stores all the characters making up a word) and produce a standard dictionary
+datatype.
+
+
+Inputs
+======
+
+No inputs
+
+Outputs
+=======
+
+No outputs

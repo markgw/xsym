@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>langsim.datatypes.neural_sixgram module &mdash; Xsym training 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Xsym training 1.0 documentation" href="../index.html" />
+    <link rel="up" title="langsim.datatypes package" href="langsim.datatypes.html" />
+    <link rel="prev" title="langsim.datatypes package" href="langsim.datatypes.html" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body role="document">
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="langsim.datatypes.html" title="langsim.datatypes package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="langsim.html" >langsim package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="langsim.datatypes.html" accesskey="U">langsim.datatypes package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-langsim.datatypes.neural_sixgram">
+<span id="langsim-datatypes-neural-sixgram-module"></span><h1>langsim.datatypes.neural_sixgram module<a class="headerlink" href="#module-langsim.datatypes.neural_sixgram" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="langsim.datatypes.neural_sixgram.NeuralSixgramTrainingData">
+<em class="property">class </em><code class="descname">NeuralSixgramTrainingData</code><span class="sig-paren">(</span><em>base_dir</em>, <em>pipeline</em>, <em>module=None</em>, <em>additional_name=None</em>, <em>use_main_metadata=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/neural_sixgram.html#NeuralSixgramTrainingData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.neural_sixgram.NeuralSixgramTrainingData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pimlico.datatypes.base.PimlicoDatatype</span></code></p>
+<p>Prepared training data for neural sixgram model. Preparation involves extracting
+positive samples from the input corpus, shuffling them and drawing appropriate
+negative samples to match each one.</p>
+<p>The result is a big binary file containing the training IDs in sequence.
+Each sample consists of 12 integers: a positive 6-gram and a negative 6-gram.</p>
+<p>For efficiency, they&#8217;re packed as C-structs.</p>
+<dl class="attribute">
+<dt id="langsim.datatypes.neural_sixgram.NeuralSixgramTrainingData.datatype_name">
+<code class="descname">datatype_name</code><em class="property"> = 'neural_sixgram_training_data'</em><a class="headerlink" href="#langsim.datatypes.neural_sixgram.NeuralSixgramTrainingData.datatype_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.datatypes.neural_sixgram.NeuralSixgramTrainingData.read_rows">
+<code class="descname">read_rows</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/neural_sixgram.html#NeuralSixgramTrainingData.read_rows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.neural_sixgram.NeuralSixgramTrainingData.read_rows" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="langsim.datatypes.neural_sixgram.NeuralSixgramTrainingDataWriter">
+<em class="property">class </em><code class="descname">NeuralSixgramTrainingDataWriter</code><span class="sig-paren">(</span><em>base_dir</em>, <em>additional_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/neural_sixgram.html#NeuralSixgramTrainingDataWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.neural_sixgram.NeuralSixgramTrainingDataWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pimlico.datatypes.base.PimlicoDatatypeWriter</span></code></p>
+<dl class="attribute">
+<dt id="langsim.datatypes.neural_sixgram.NeuralSixgramTrainingDataWriter.data_file_path">
+<code class="descname">data_file_path</code><a class="headerlink" href="#langsim.datatypes.neural_sixgram.NeuralSixgramTrainingDataWriter.data_file_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.datatypes.neural_sixgram.NeuralSixgramTrainingDataWriter.add_sample">
+<code class="descname">add_sample</code><span class="sig-paren">(</span><em>sixgram</em>, <em>neg_sixgram</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/neural_sixgram.html#NeuralSixgramTrainingDataWriter.add_sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.neural_sixgram.NeuralSixgramTrainingDataWriter.add_sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="langsim.datatypes.html"
+                        title="previous chapter">langsim.datatypes package</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="langsim.datatypes.html" title="langsim.datatypes package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="langsim.html" >langsim package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="langsim.datatypes.html" >langsim.datatypes package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2018, Mark Granroth-Wilding.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

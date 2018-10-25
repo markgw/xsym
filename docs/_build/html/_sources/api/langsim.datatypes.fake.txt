@@ -1,0 +1,7 @@
+langsim\.datatypes\.fake module
+===============================
+
+.. automodule:: langsim.datatypes.fake
+    :members:
+    :undoc-members:
+    :show-inheritance:

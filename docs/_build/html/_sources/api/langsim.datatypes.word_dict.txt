@@ -1,0 +1,7 @@
+langsim\.datatypes\.word\_dict module
+=====================================
+
+.. automodule:: langsim.datatypes.word_dict
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+langsim\.datatypes\.word2vecf module
+====================================
+
+.. automodule:: langsim.datatypes.word2vecf
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+langsim\.utils\.faiss\.csls module
+==================================
+
+.. automodule:: langsim.utils.faiss.csls
+    :members:
+    :undoc-members:
+    :show-inheritance:

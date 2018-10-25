@@ -1,0 +1,7 @@
+langsim\.datatypes\.kondrak module
+==================================
+
+.. automodule:: langsim.datatypes.kondrak
+    :members:
+    :undoc-members:
+    :show-inheritance:

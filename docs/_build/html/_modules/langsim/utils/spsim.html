@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>langsim.utils.spsim &mdash; Xsym training 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Xsym training 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../../../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body role="document">
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for langsim.utils.spsim</h1><div class="highlight"><pre>
+<span class="c1"># -*- coding: utf8 -*-</span>
+<span class="sd">u&quot;&quot;&quot;Implementation of SpSim algorithm, based on that released by the authors</span>
+
+<span class="sd">This implements the algorithm described in:</span>
+
+<span class="sd">   Measuring Spelling Similarity for Cognate Identification</span>
+<span class="sd">   Luís Gomes and José Gabriel Pereira Lopes</span>
+
+<span class="sd">Downloaded from http://research.variancia.com/spsim/ and converted to Python 2.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">langsim.utils.spsim.stringology</span> <span class="kn">import</span> <span class="n">align</span><span class="p">,</span> <span class="n">mismatches</span>
+
+
+<div class="viewcode-block" id="SpSim"><a class="viewcode-back" href="../../../api/langsim.utils.spsim.html#langsim.utils.spsim.SpSim">[docs]</a><span class="k">class</span> <span class="nc">SpSim</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SpSim is a spelling similarity measure for identifying cognates by</span>
+<span class="sd">    learning cross-language spelling differences.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim = SpSim()</span>
+<span class="sd">    &gt;&gt;&gt; sim(&#39;phase&#39;, &#39;fase&#39;)</span>
+<span class="sd">    0.6</span>
+
+<span class="sd">    Learning contextualized spelling differences from an example:</span>
+
+<span class="sd">    &gt;&gt;&gt; sim.learn([(&#39;alpha&#39;, &#39;alfa&#39;)])</span>
+<span class="sd">    &gt;&gt;&gt; sorted(sim.diffs.items())</span>
+<span class="sd">    [(&#39;ph\\tf&#39;, &#39;la&#39;)]</span>
+
+<span class="sd">    SpSim has learned that &#39;ph&#39; may be replaced by &#39;f&#39; if &#39;ph&#39; comes after &#39;l&#39;</span>
+<span class="sd">    and before &#39;a&#39;.</span>
+
+<span class="sd">    Generalizing the admissible contexts of known spelling differences:</span>
+
+<span class="sd">    &gt;&gt;&gt; sim.learn([(&#39;phase&#39;, &#39;fase&#39;)])</span>
+<span class="sd">    &gt;&gt;&gt; sorted(sim.diffs.items())</span>
+<span class="sd">    [(&#39;ph\\tf&#39;, &#39;*a&#39;)]</span>
+
+<span class="sd">    SpSim has learned that &#39;ph&#39; may be replaced by &#39;f&#39; if it comes before &#39;a&#39;.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim.learn([(&#39;photo&#39;, &#39;foto&#39;)])</span>
+<span class="sd">    &gt;&gt;&gt; sorted(sim.diffs.items())</span>
+<span class="sd">    [(&#39;ph\\tf&#39;, &#39;**&#39;)]</span>
+
+<span class="sd">    SpSim has learned that &#39;ph&#39; may be replaced by &#39;f&#39;.</span>
+
+<span class="sd">    &gt;&gt;&gt; sim(&#39;phenomenal&#39;, &#39;fenomenal&#39;)</span>
+<span class="sd">    1.0</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">examples</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diffs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">examples</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">learn</span><span class="p">(</span><span class="n">examples</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># total distance</span>
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">ctxt</span> <span class="ow">in</span> <span class="n">SpSim</span><span class="o">.</span><span class="n">_get_diffs</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">SpSim</span><span class="o">.</span><span class="n">_match_context</span><span class="p">(</span><span class="n">ctxt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="bp">None</span><span class="p">)):</span>
+                <span class="n">d</span> <span class="o">+=</span> <span class="n">n</span>
+        <span class="k">return</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">d</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+
+<div class="viewcode-block" id="SpSim.learn"><a class="viewcode-back" href="../../../api/langsim.utils.spsim.html#langsim.utils.spsim.SpSim.learn">[docs]</a>    <span class="k">def</span> <span class="nf">learn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">examples</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">ctxt</span> <span class="ow">in</span> <span class="n">SpSim</span><span class="o">.</span><span class="n">_get_diffs</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+                <span class="n">learned</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diffs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">diffs</span><span class="p">[</span><span class="n">diff</span><span class="p">]</span> <span class="o">=</span> <span class="n">SpSim</span><span class="o">.</span><span class="n">_generalize_context</span><span class="p">(</span><span class="n">learned</span><span class="p">,</span> <span class="n">ctxt</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_diffs</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">alignment</span> <span class="o">=</span> <span class="n">align</span><span class="p">(</span><span class="s1">&#39;^&#39;</span> <span class="o">+</span> <span class="n">a</span> <span class="o">+</span> <span class="s1">&#39;$&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="s1">&#39;$&#39;</span><span class="p">,</span> <span class="n">gap</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">mma</span><span class="p">,</span> <span class="n">mmb</span> <span class="ow">in</span> <span class="n">mismatches</span><span class="p">(</span><span class="o">*</span><span class="n">alignment</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mma</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="c1"># discount the left and right context chars</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">mma</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">mmb</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">ctxt</span> <span class="o">=</span> <span class="n">mma</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">mma</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">yield</span> <span class="n">n</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">ctxt</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_match_context</span><span class="p">(</span><span class="n">ctxt</span><span class="p">,</span> <span class="n">learned</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">learned</span>
+                <span class="ow">and</span> <span class="n">learned</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="s1">&#39;*&#39;</span> <span class="o">+</span> <span class="n">ctxt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">learned</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="s1">&#39;*&#39;</span> <span class="o">+</span> <span class="n">ctxt</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_generalize_context</span><span class="p">(</span><span class="n">learned</span><span class="p">,</span> <span class="n">ctxt</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">learned</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ctxt</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lft</span> <span class="o">=</span> <span class="s1">&#39;*&#39;</span> <span class="k">if</span> <span class="n">learned</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">ctxt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="n">learned</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">rgt</span> <span class="o">=</span> <span class="s1">&#39;*&#39;</span> <span class="k">if</span> <span class="n">learned</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">ctxt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">else</span> <span class="n">learned</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">lft</span> <span class="o">+</span> <span class="n">rgt</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2018, Mark Granroth-Wilding.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

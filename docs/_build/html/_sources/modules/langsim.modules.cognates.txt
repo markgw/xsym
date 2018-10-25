@@ -1,0 +1,16 @@
+Cognate identification
+~~~~~~~~~~~~~~~~~~~~~~
+
+
+.. py:module:: langsim.modules.cognates
+
+
+
+
+.. toctree::
+   :maxdepth: 2
+   :titlesonly:
+
+   langsim.modules.cognates.edit_distance
+   langsim.modules.cognates.kondrak
+   langsim.modules.cognates.phoneme_pair_weights

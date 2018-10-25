@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>langsim.utils.faiss.csls &mdash; Xsym training 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="Xsym training 1.0 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../../../../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body role="document">
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for langsim.utils.faiss.csls</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;CSLS computation tool</span>
+
+<span class="sd">Tool to compute the Cross-Domain Similarity Local Scaling (CSLS) measure from the Conneau paper.</span>
+
+<span class="sd">Uses Faiss, which will be imported on module import. Make sure</span>
+
+<span class="sd">   a. you give your Pimlico module a `faiss_dependency` (see `deps`); and</span>
+
+<span class="sd">   b. you only import this module at runtime, e.g. from your module executor.</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
+
+<span class="kn">import</span> <span class="nn">faiss</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+
+<div class="viewcode-block" id="CSLSCalculator"><a class="viewcode-back" href="../../../../api/langsim.utils.faiss.csls.html#langsim.utils.faiss.csls.CSLSCalculator">[docs]</a><span class="k">class</span> <span class="nc">CSLSCalculator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Target vectors are given at init time, since we can index them straight away. Going the other way</span>
+<span class="sd">    is more time-consuming, since the mapped source vectors change between each time we want to</span>
+<span class="sd">    compute CSLS, so we have to reindex them every time.</span>
+
+<span class="sd">    Distances are computed as dot products, so input vectors should be euclidean normalized, so that</span>
+<span class="sd">    the result is cosine distances.</span>
+
+<span class="sd">    The paper describes how CSLS is computed for each of the top 10k most frequent source words to</span>
+<span class="sd">    generate translations of them. It doesn&#39;t mention a limit on the candidates for translation, so</span>
+<span class="sd">    presumably it&#39;s just the 200k limit put on all experiments. However, when using this as a validation</span>
+<span class="sd">    metric, it hardly seems necessary to compute CSLS with all of the 200k words, when we have an index</span>
+<span class="sd">    that can give us the top cosine similarities and something with a low cos sim should never end up</span>
+<span class="sd">    in the top CSLS candidates (especially when we&#39;re only interested in the top candidate).</span>
+
+<span class="sd">    We therefore allow a limit to be set on computing CSLS, restricting to just the nearest N words</span>
+<span class="sd">    by cosine. It defaults to 200k, but in the case of computing the validation metric you almost</span>
+<span class="sd">    certainly want to set it to something much smaller.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_vectors</span><span class="p">,</span> <span class="n">source_vectors</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">target_vectors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_index</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatIP</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_size</span><span class="p">)</span>
+        <span class="c1"># Add all of the base vectors to the index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_index</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">target_vectors</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_vectors</span> <span class="o">=</span> <span class="n">target_vectors</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_index</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_vectors</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_rs</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_rs</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="c1"># For convenience, we allow the source vectors to be set at the beginning, which is easier to</span>
+        <span class="c1"># understand in circumstances where we&#39;re not changing them</span>
+        <span class="k">if</span> <span class="n">source_vectors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_source_vectors</span><span class="p">(</span><span class="n">source_vectors</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CSLSCalculator.set_source_vectors"><a class="viewcode-back" href="../../../../api/langsim.utils.faiss.csls.html#langsim.utils.faiss.csls.CSLSCalculator.set_source_vectors">[docs]</a>    <span class="k">def</span> <span class="nf">set_source_vectors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_vectors</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_index</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">.</span><span class="n">IndexFlatIP</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_index</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">source_vectors</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_vectors</span> <span class="o">=</span> <span class="n">source_vectors</span>
+
+        <span class="c1"># Recompute rs for the new vectors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_rs</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_compute_r</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">vectors</span><span class="p">):</span>
+        <span class="c1"># Get the nearest neighbours of the query vectors in the given index</span>
+        <span class="n">neighbour_sims</span><span class="p">,</span> <span class="n">neighbour_indices</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">vectors</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">)</span>
+        <span class="c1"># We only need the distances to the nearest neighbours</span>
+        <span class="c1"># r is the average (cosine) distance to the k nearest neighbours</span>
+        <span class="k">return</span> <span class="n">neighbour_sims</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CSLSCalculator.compute_rs"><a class="viewcode-back" href="../../../../api/langsim.utils.faiss.csls.html#langsim.utils.faiss.csls.CSLSCalculator.compute_rs">[docs]</a>    <span class="k">def</span> <span class="nf">compute_rs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Call after source vectors have been set to compute the r-values for all source and all target</span>
+<span class="sd">        vectors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Compute r_S (a value for each target vector)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_rs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_r</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_vectors</span><span class="p">)</span>
+        <span class="c1"># Compute r_T (a value for each source vector)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_rs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_r</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target_index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_vectors</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CSLSCalculator.source_translations_by_cosine_multi"><a class="viewcode-back" href="../../../../api/langsim.utils.faiss.csls.html#langsim.utils.faiss.csls.CSLSCalculator.source_translations_by_cosine_multi">[docs]</a>    <span class="k">def</span> <span class="nf">source_translations_by_cosine_multi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_indices</span><span class="p">,</span> <span class="n">top_neighbours</span><span class="o">=</span><span class="mi">200000</span><span class="p">):</span>
+        <span class="n">target_sims</span><span class="p">,</span> <span class="n">target_candidates</span> <span class="o">=</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">target_index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_vectors</span><span class="p">[</span><span class="n">source_indices</span><span class="p">],</span> <span class="n">top_neighbours</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">target_candidates</span><span class="p">,</span> <span class="n">target_sims</span></div>
+
+<div class="viewcode-block" id="CSLSCalculator.target_translations_by_cosine_multi"><a class="viewcode-back" href="../../../../api/langsim.utils.faiss.csls.html#langsim.utils.faiss.csls.CSLSCalculator.target_translations_by_cosine_multi">[docs]</a>    <span class="k">def</span> <span class="nf">target_translations_by_cosine_multi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_indices</span><span class="p">,</span> <span class="n">top_neighbours</span><span class="o">=</span><span class="mi">200000</span><span class="p">):</span>
+        <span class="n">source_sims</span><span class="p">,</span> <span class="n">source_candidates</span> <span class="o">=</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">source_index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target_vectors</span><span class="p">[</span><span class="n">target_indices</span><span class="p">],</span> <span class="n">top_neighbours</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">source_candidates</span><span class="p">,</span> <span class="n">source_sims</span></div>
+
+<div class="viewcode-block" id="CSLSCalculator.source_translations_by_csls_multi"><a class="viewcode-back" href="../../../../api/langsim.utils.faiss.csls.html#langsim.utils.faiss.csls.CSLSCalculator.source_translations_by_csls_multi">[docs]</a>    <span class="k">def</span> <span class="nf">source_translations_by_csls_multi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_indices</span><span class="p">,</span> <span class="n">top_neighbours</span><span class="o">=</span><span class="mi">200000</span><span class="p">):</span>
+        <span class="n">top_neighbours</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">top_neighbours</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target_vectors</span><span class="p">))</span>
+        <span class="c1"># Just compute scores for the nearest (cosine) neighbours to the source</span>
+        <span class="n">target_sims</span><span class="p">,</span> <span class="n">target_candidates</span> <span class="o">=</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">target_index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_vectors</span><span class="p">[</span><span class="n">source_indices</span><span class="p">],</span> <span class="n">top_neighbours</span><span class="p">)</span>
+        <span class="n">csls</span> <span class="o">=</span> <span class="mf">2.</span><span class="o">*</span><span class="n">target_sims</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_rs</span><span class="p">[</span><span class="n">source_indices</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_rs</span><span class="p">[</span><span class="n">target_candidates</span><span class="p">]</span>
+        <span class="c1"># Resort by descending csls</span>
+        <span class="n">sorted_candidates</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="o">-</span><span class="n">csls</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">csls</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">sorted_candidates</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[:,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">sorted_candidates</span><span class="p">]</span>
+        <span class="n">target_ids</span> <span class="o">=</span> <span class="n">target_candidates</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">sorted_candidates</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[:,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">sorted_candidates</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">target_ids</span><span class="p">,</span> <span class="n">scores</span></div>
+
+<div class="viewcode-block" id="CSLSCalculator.target_translations_by_csls_multi"><a class="viewcode-back" href="../../../../api/langsim.utils.faiss.csls.html#langsim.utils.faiss.csls.CSLSCalculator.target_translations_by_csls_multi">[docs]</a>    <span class="k">def</span> <span class="nf">target_translations_by_csls_multi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_indices</span><span class="p">,</span> <span class="n">top_neighbours</span><span class="o">=</span><span class="mi">200000</span><span class="p">):</span>
+        <span class="n">top_neighbours</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">top_neighbours</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_vectors</span><span class="p">))</span>
+        <span class="c1"># Just compute scores for the nearest (cosine) neighbours to the source</span>
+        <span class="n">source_sims</span><span class="p">,</span> <span class="n">source_candidates</span> <span class="o">=</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">source_index</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">target_vectors</span><span class="p">[</span><span class="n">target_indices</span><span class="p">],</span> <span class="n">top_neighbours</span><span class="p">)</span>
+        <span class="n">csls</span> <span class="o">=</span> <span class="mf">2.</span><span class="o">*</span><span class="n">source_sims</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_rs</span><span class="p">[</span><span class="n">target_indices</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_rs</span><span class="p">[</span><span class="n">source_candidates</span><span class="p">]</span>
+        <span class="c1"># Resort by descending csls</span>
+        <span class="n">sorted_candidates</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="o">-</span><span class="n">csls</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">csls</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">sorted_candidates</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[:,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">sorted_candidates</span><span class="p">]</span>
+        <span class="n">source_ids</span> <span class="o">=</span> <span class="n">source_candidates</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">sorted_candidates</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[:,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">sorted_candidates</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">source_ids</span><span class="p">,</span> <span class="n">scores</span></div>
+
+<div class="viewcode-block" id="CSLSCalculator.source_translations_by_csls"><a class="viewcode-back" href="../../../../api/langsim.utils.faiss.csls.html#langsim.utils.faiss.csls.CSLSCalculator.source_translations_by_csls">[docs]</a>    <span class="k">def</span> <span class="nf">source_translations_by_csls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_index</span><span class="p">,</span> <span class="n">top_neighbours</span><span class="o">=</span><span class="mi">200000</span><span class="p">):</span>
+        <span class="n">target_ids</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_translations_by_csls_multi</span><span class="p">([</span><span class="n">source_index</span><span class="p">],</span> <span class="n">top_neighbours</span><span class="o">=</span><span class="n">top_neighbours</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">target_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="CSLSCalculator.target_translations_by_csls"><a class="viewcode-back" href="../../../../api/langsim.utils.faiss.csls.html#langsim.utils.faiss.csls.CSLSCalculator.target_translations_by_csls">[docs]</a>    <span class="k">def</span> <span class="nf">target_translations_by_csls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_index</span><span class="p">,</span> <span class="n">top_neighbours</span><span class="o">=</span><span class="mi">200000</span><span class="p">):</span>
+        <span class="n">source_ids</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_translations_by_csls_multi</span><span class="p">([</span><span class="n">target_index</span><span class="p">],</span> <span class="n">top_neighbours</span><span class="o">=</span><span class="n">top_neighbours</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">source_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2018, Mark Granroth-Wilding.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

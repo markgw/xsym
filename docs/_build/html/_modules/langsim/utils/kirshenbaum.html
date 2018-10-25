@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>langsim.utils.kirshenbaum &mdash; Xsym training 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Xsym training 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../../../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body role="document">
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for langsim.utils.kirshenbaum</h1><div class="highlight"><pre>
+<span class="c1"># coding=utf-8</span>
+<span class="sd">&quot;&quot;&quot;Convert Kirshenbaum&#39;s ASCII IPA to Unicode IPA.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">PHONEMIC_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;/[^/]+/&#39;</span><span class="p">)</span>
+<span class="n">PHONETIC_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;\[[^</span><span class="se">\\</span><span class="s1">]+\]&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_sort</span><span class="p">(</span><span class="n">it</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Sort by reverse-length, then alphabetically&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+
+<span class="c1"># The segment list from [KPDF]</span>
+<span class="n">SEGLIST</span> <span class="o">=</span> <span class="n">_sort</span><span class="p">(</span>
+          <span class="p">[(</span><span class="s1">&#39;m&#39;</span><span class="p">,</span>      <span class="s1">u&#39;m&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">,</span>      <span class="s1">u&#39;p&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span>      <span class="s1">u&#39;b&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">,</span>      <span class="s1">u&#39;Φ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span>      <span class="s1">u&#39;β&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;b&lt;trl&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;ʙ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;p`&#39;</span><span class="p">,</span>     <span class="s1">u&#39;pʼ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;b`&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɓ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;p!&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʘ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ɱ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span>      <span class="s1">u&#39;f&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span>      <span class="s1">u&#39;v&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;r&lt;lbd&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;ʋ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;n[&#39;</span><span class="p">,</span>     <span class="s1">u&#39;n</span><span class="se">\u032a</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;t[&#39;</span><span class="p">,</span>     <span class="s1">u&#39;t</span><span class="se">\u032a</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span>      <span class="s1">u&#39;θ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ð&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;r[&#39;</span><span class="p">,</span>     <span class="s1">u&#39;r</span><span class="se">\u032a</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;l[&#39;</span><span class="p">,</span>     <span class="s1">u&#39;l</span><span class="se">\u032a</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;t[`&#39;</span><span class="p">,</span>    <span class="s1">u&#39;t</span><span class="se">\u032a\u02bc</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;d`&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɗ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;t!&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʇ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span>      <span class="s1">u&#39;n&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span>      <span class="s1">u&#39;t&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span>      <span class="s1">u&#39;d&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>      <span class="s1">u&#39;s&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span>      <span class="s1">u&#39;z&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;s&lt;lat&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;ɬ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;z&lt;lat&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;ɮ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ɹ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">,</span>      <span class="s1">u&#39;l&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;r&lt;trl&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;ʀ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ɾ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;*&lt;lat&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;ɺ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;t`&#39;</span><span class="p">,</span>     <span class="s1">u&#39;t</span><span class="se">\u02bc</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;d`&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɗ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;c!&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʗ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;l!&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʖ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;n.&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɳ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;t.&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʈ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;d.&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɖ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;s.&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʂ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;z.&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʐ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;r.&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɖ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;l.&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɭ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;*.&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɽ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ʃ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ʒ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;n^&#39;</span><span class="p">,</span>     <span class="s1">u&#39;n^&#39;</span><span class="p">),</span> <span class="c1">######</span>
+           <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span>      <span class="s1">u&#39;c&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;J&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ɟ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ç&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;C&lt;vcd&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;ʝ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;j&#39;</span><span class="p">,</span>      <span class="s1">u&#39;j&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;j&lt;rnd&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;ɥ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;l^&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʎ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;J`&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʄ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;c!&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʗ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ŋ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>      <span class="s1">u&#39;k&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span>      <span class="s1">u&#39;g&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>      <span class="s1">u&#39;x&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;Q&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ɣ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;j&lt;vel&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;ɰ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ɫ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;{vls,alv,lat,frc}&#39;</span><span class="p">,</span> <span class="s1">u&#39;ɬ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;k`&#39;</span><span class="p">,</span>     <span class="s1">u&#39;k</span><span class="se">\u02bc</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;g`&#39;</span><span class="p">,</span>     <span class="s1">u&#39;g</span><span class="se">\u02bc</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;k!&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʞ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;n&lt;lbv&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;n</span><span class="se">\u2030</span><span class="s1">g&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;t&lt;lbv&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;k</span><span class="se">\u2030</span><span class="s1">p&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;n&lt;lbv&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;g</span><span class="se">\u2030</span><span class="s1">b&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;w&lt;vls&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;ʍ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span>      <span class="s1">u&#39;w&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;n&quot;&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɴ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">,</span>      <span class="s1">u&#39;q&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ɢ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;X&#39;</span><span class="p">,</span>      <span class="s1">u&#39;χ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;g&quot;&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʁ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;r&quot;&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʀ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;q`&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʠ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;G`&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʛ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ħ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;H&lt;vcd&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;ʕ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ʔ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;h&#39;</span><span class="p">,</span>      <span class="s1">u&#39;h&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;h&lt;?&gt;&#39;</span><span class="p">,</span>   <span class="s1">u&#39;ɦ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">,</span>      <span class="s1">u&#39;i&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span>      <span class="s1">u&#39;y&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;I&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ɪ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;I.&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʏ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">,</span>      <span class="s1">u&#39;e&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ø&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ɛ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;W&#39;</span><span class="p">,</span>      <span class="s1">u&#39;œ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">,</span>      <span class="s1">u&#39;æ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;&amp;.&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɶ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;i&quot;&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɨ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;u&quot;&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ʉ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;@&lt;umd&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;ɘ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;R&lt;umd&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;ɝ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ə&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;R&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ɚ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;@.&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɵ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;V&quot;&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɜ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;O&quot;&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɞ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span>      <span class="s1">u&#39;a&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;u-&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɯ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">,</span>      <span class="s1">u&#39;u&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;U&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ʊ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;o-&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɤ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>      <span class="s1">u&#39;o&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;V&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ʌ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;O&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ɔ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span>      <span class="s1">u&#39;ɑ&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;A.&#39;</span><span class="p">,</span>     <span class="s1">u&#39;ɒ&#39;</span><span class="p">)])</span>
+
+<span class="n">VOWELS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;@&lt;umd&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;R&lt;umd&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&amp;.&#39;</span><span class="p">,</span> <span class="s1">&#39;@.&#39;</span><span class="p">,</span> <span class="s1">&#39;A.&#39;</span><span class="p">,</span> <span class="s1">&#39;I.&#39;</span><span class="p">,</span> <span class="s1">&#39;O&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;V&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;i&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;u&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;u-&#39;</span><span class="p">,</span> <span class="s1">&#39;&amp;&#39;</span><span class="p">,</span> <span class="s1">&#39;@&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;R&#39;</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">]</span>
+<span class="n">INVVOW</span> <span class="o">=</span> <span class="p">[</span><span class="n">uni</span> <span class="k">for</span> <span class="n">seg</span><span class="p">,</span> <span class="n">uni</span> <span class="ow">in</span> <span class="n">SEGLIST</span> <span class="k">if</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">VOWELS</span><span class="p">]</span>
+
+<span class="c1"># Diacritics which do not depend on voice</span>
+<span class="n">DIACRITICS</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="s1">u&#39;ː&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u0322</span><span class="s1">&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;`&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02bc</span><span class="s1">&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u032a</span><span class="s1">&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02b2</span><span class="s1">&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">u&#39;&quot;&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="s1">u&#39;^&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;&lt;H&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u0334</span><span class="s1">&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;&lt;h&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02b0</span><span class="s1">&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;&lt;unx&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02da</span><span class="s1">&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;&lt;vls&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u0325</span><span class="s1">&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;&lt;o&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02da</span><span class="s1">&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;&lt;r&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02b3</span><span class="s1">&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;&lt;w&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02b7</span><span class="s1">&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s1">&#39;&lt;?&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02b1</span><span class="s1">&#39;</span><span class="p">)]</span>
+<span class="n">DIACRITICS_VOWEL</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;~&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u0303</span><span class="s1">&#39;</span><span class="p">)]</span>
+<span class="n">DIACRITICS_CONSONANT</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;~&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u0334</span><span class="s1">&#39;</span><span class="p">)]</span>
+
+<span class="n">STRESS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;&#39;&quot;</span><span class="p">:</span> <span class="s2">u&quot;ˈ&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">:</span> <span class="s2">u&quot;ˌ&quot;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">:</span> <span class="s1">u&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">u&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">}</span>
+<span class="n">INVSTRESS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">u&quot;ˈ&quot;</span><span class="p">:</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">,</span>
+             <span class="s2">u&quot;ˌ&quot;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span>
+             <span class="s1">u&#39; &#39;</span><span class="p">:</span> <span class="s1">&#39; &#39;</span><span class="p">,</span>
+             <span class="s1">u&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">}</span>
+
+
+<span class="n">INVDIA</span> <span class="o">=</span> <span class="n">_sort</span><span class="p">([(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">in</span> \
+          <span class="p">[(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="s1">u&#39;ː&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u0322</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u0323</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;`&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02bc</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u032a</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02b2</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u0321</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">u&#39;&quot;&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="s1">u&#39;^&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;&lt;H&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u0334</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;&lt;h&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02b0</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;&lt;unx&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02da</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;&lt;vls&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u0325</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;&lt;o&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02da</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;&lt;r&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02b3</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;&lt;w&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02b7</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;&lt;?&gt;&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u02b1</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u0303</span><span class="s1">&#39;</span><span class="p">),</span>
+           <span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u0334</span><span class="s1">&#39;</span><span class="p">)]</span>
+                <span class="p">])</span>
+<span class="n">INVSEGLIST</span> <span class="o">=</span> <span class="n">_sort</span><span class="p">((</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="n">SEGLIST</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ascii_to_unicode"><a class="viewcode-back" href="../../../api/langsim.utils.kirshenbaum.html#langsim.utils.kirshenbaum.ascii_to_unicode">[docs]</a><span class="k">def</span> <span class="nf">ascii_to_unicode</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;ASCII-IPA to Unicode IPA. Note: because of the simple syntax,</span>
+<span class="sd">     the peculiar control flow is fine.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">vowel</span> <span class="o">=</span> <span class="bp">True</span>
+  <span class="n">t</span> <span class="o">=</span> <span class="s1">u&#39;&#39;</span>
+  <span class="n">lasts</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+  <span class="k">while</span> <span class="n">s</span><span class="p">:</span>
+    <span class="c1"># Guarantees progress</span>
+    <span class="k">if</span> <span class="n">lasts</span> <span class="o">==</span> <span class="n">s</span><span class="p">:</span>
+      <span class="n">t</span> <span class="o">+=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">lasts</span> <span class="o">=</span> <span class="n">s</span>
+
+    <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">STRESS</span><span class="p">:</span>
+      <span class="n">t</span> <span class="o">+=</span> <span class="n">STRESS</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+      <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="k">for</span> <span class="n">seg</span><span class="p">,</span> <span class="n">uni</span> <span class="ow">in</span> <span class="n">SEGLIST</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">seg</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">seg</span><span class="p">):]</span>
+        <span class="n">t</span> <span class="o">+=</span> <span class="n">uni</span>
+        <span class="n">vowel</span> <span class="o">=</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">VOWELS</span>
+
+    <span class="k">for</span> <span class="n">dia</span><span class="p">,</span> <span class="n">uni</span> <span class="ow">in</span> <span class="n">DIACRITICS</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">dia</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">dia</span><span class="p">):]</span>
+        <span class="n">t</span> <span class="o">+=</span> <span class="n">uni</span>
+
+    <span class="k">if</span> <span class="n">s</span> <span class="ow">and</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;~&#39;</span><span class="p">:</span>
+      <span class="n">t</span> <span class="o">+=</span> <span class="n">DIACRITICS_VOWEL</span><span class="p">[</span><span class="s1">&#39;~&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">vowel</span> <span class="k">else</span> <span class="n">DIACRITICS_CONSONANT</span><span class="p">[</span><span class="s1">&#39;~&#39;</span><span class="p">]</span>
+      <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+  <span class="k">return</span> <span class="n">t</span></div>
+
+
+<div class="viewcode-block" id="unicode_to_ascii"><a class="viewcode-back" href="../../../api/langsim.utils.kirshenbaum.html#langsim.utils.kirshenbaum.unicode_to_ascii">[docs]</a><span class="k">def</span> <span class="nf">unicode_to_ascii</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Unicode IPA to ASCII-IPA&quot;&quot;&quot;</span>
+  <span class="n">vowel</span> <span class="o">=</span> <span class="bp">True</span>
+  <span class="n">t</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+  <span class="n">lasts</span> <span class="o">=</span> <span class="s1">u&#39;&#39;</span>
+  <span class="k">while</span> <span class="n">s</span><span class="p">:</span>
+    <span class="c1"># Guarantees progress</span>
+    <span class="k">if</span> <span class="n">lasts</span> <span class="o">==</span> <span class="n">s</span><span class="p">:</span>
+      <span class="n">t</span> <span class="o">+=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">lasts</span> <span class="o">=</span> <span class="n">s</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="p">:</span> <span class="k">break</span>
+
+    <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">INVSTRESS</span><span class="p">:</span>
+      <span class="n">t</span> <span class="o">+=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">INVSTRESS</span><span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+      <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="k">for</span> <span class="n">seg</span><span class="p">,</span> <span class="n">uni</span> <span class="ow">in</span> <span class="n">INVSEGLIST</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">seg</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">seg</span><span class="p">):]</span>
+        <span class="n">t</span> <span class="o">+=</span> <span class="n">uni</span>
+        <span class="n">vowel</span> <span class="o">=</span> <span class="n">seg</span> <span class="ow">in</span> <span class="n">INVVOW</span>
+
+    <span class="k">for</span> <span class="n">dia</span><span class="p">,</span> <span class="n">uni</span> <span class="ow">in</span> <span class="n">INVDIA</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">dia</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">dia</span><span class="p">):]</span>
+        <span class="n">t</span> <span class="o">+=</span> <span class="n">uni</span>
+
+  <span class="k">return</span> <span class="n">t</span></div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># TODO Allow other way round</span>
+    <span class="k">print</span> <span class="s2">&quot;Enter utf8 sequence&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;&gt;&gt; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
+            <span class="k">print</span> <span class="n">unicode_to_ascii</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
+        <span class="c1"># Exit</span>
+        <span class="k">pass</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2018, Mark Granroth-Wilding.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+Embedding space mappings
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+.. py:module:: langsim.modules.embedding_map
+
+
+Methods based on learning a mapping between monolingual embedding spaces.
+
+
+
+.. toctree::
+   :maxdepth: 2
+   :titlesonly:
+
+   langsim.modules.embedding_map.conneau
+   langsim.modules.embedding_map.neighbours

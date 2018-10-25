@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Codebase for SCiL 2019 paper &mdash; Xsym training 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Xsym training 1.0 documentation" href="#" />
+    <link rel="next" title="Pimlico modules" href="modules/langsim.modules.html" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body role="document">
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules/langsim.modules.html" title="Pimlico modules"
+             accesskey="N">next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Xsym training 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="codebase-for-scil-2019-paper">
+<h1>Codebase for SCiL 2019 paper<a class="headerlink" href="#codebase-for-scil-2019-paper" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><em>Unsupervised Learning of Cross-Lingual Symbol Embeddings Without Parallel Data</em></div>
+<div class="line">Mark Granroth-Wilding and Hannu Toivonen (2019)</div>
+<div class="line">In proceedings <a class="reference external" href="https://blogs.umass.edu/scil/scil-2019/">Society for Computation in Linguistics (SCiL)</a></div>
+</div>
+</div></blockquote>
+<p>This codebase contains the code used to prepare data and train models for this paper.
+In the paper, the model is called <strong>Xsym</strong>. In this code, it is called <strong>neural_sixgram</strong>.</p>
+<p>For more information about the paper, including downloadable pre-trained embeddings,
+<a class="reference external" href="https://mark.granroth-wilding.co.uk/papers/unsup_symbol/">see here</a>.</p>
+<p>It uses <a class="reference external" href="http://pimlico.readthedocs.io">Pimlico</a>.
+Pimlico pipeline config files can be found in the <code class="docutils literal"><span class="pre">pipelines</span></code> directory.
+Most of the code consists of <a class="reference internal" href="modules/langsim.modules.html"><em>Pimlico modules (documented here)</em></a>.</p>
+<p>The code has been cleaned up for release, which involved removing a lot of
+old code from various experiments carried out over a number of years. Hopefully,
+I&#8217;ve not removed anything important, but <a class="reference external" href="https://mark.granroth-wilding.co.uk/">get in touch with Mark</a>
+if something seems to be missing.</p>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>To start using the code, see <a class="reference external" href="https://pimlico.readthedocs.io/en/latest/guides/bootstrap.html">Pimlico&#8217;s guide for initializing Pimlico with someone
+else&#8217;s code</a>.</p>
+<p>In short...</p>
+<blockquote>
+<div><ul class="simple">
+<li>Download this codebase and extract it.</li>
+<li>Download the <a class="reference external" href="https://raw.githubusercontent.com/markgw/pimlico/master/admin/bootstrap.py">bootstrap.py</a> script from Pimlico
+to the root directory of the codebase.</li>
+<li>In the root directory, run: <code class="docutils literal"><span class="pre">python</span> <span class="pre">bootstrap.py</span> <span class="pre">pipelines/char_embed_corpora.conf</span></code></li>
+<li>Check that the setup has worked:<ul>
+<li><code class="docutils literal"><span class="pre">cd</span> <span class="pre">pipelines</span></code></li>
+<li><code class="docutils literal"><span class="pre">./char_embed_corpora.conf</span> <span class="pre">status</span></code></li>
+<li>Pimlico should do some initial setup and then show a long list of modules in the pipeline</li>
+</ul>
+</li>
+<li>Delete <code class="docutils literal"><span class="pre">bootstrap.py</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="pipelines">
+<h2>Pipelines<a class="headerlink" href="#pipelines" title="Permalink to this headline">¶</a></h2>
+<p>There are two pipelines. These cover the corruption experiment and the main model training
+described in the paper.</p>
+<p>In addition to this, if you want to reproduce everything we did,
+you&#8217;ll need to preprocess the data for low-resourced Uralic languages to clean it up.
+That process is implemented and documented in
+<a class="reference external" href="https://mark.granroth-wilding.co.uk/papers/unsup_symbol/">a separate codebase</a>,
+which also uses Pimlico.</p>
+<div class="section" id="char-embed-corpora">
+<h3>char_embed_corpora<a class="headerlink" href="#char-embed-corpora" title="Permalink to this headline">¶</a></h3>
+<p>Main model training pipeline.</p>
+<p>This pipeline loads a variety of corpora and trains Xsym on them. It produces all the
+models described in the paper. To train on these corpora, you&#8217;ll need to download
+them and then update the paths in the <code class="docutils literal"><span class="pre">[vars]</span></code> section to point to their locations.</p>
+<p>There are two slightly different implementations of the training code, found in the
+Pimlico modules <a class="reference internal" href="modules/langsim.modules.local_lm.neural_sixgram.html#module-langsim.modules.local_lm.neural_sixgram" title="langsim.modules.local_lm.neural_sixgram"><code class="xref py py-mod docutils literal"><span class="pre">neural_sixgram</span></code></a>
+and <a class="reference internal" href="modules/langsim.modules.local_lm.neural_sixgram2.html#module-langsim.modules.local_lm.neural_sixgram2" title="langsim.modules.local_lm.neural_sixgram2"><code class="xref py py-mod docutils literal"><span class="pre">neural_sixgram2</span></code></a>. If you&#8217;re training the model
+yourself, you should use the more recent and more efficient <a class="reference internal" href="modules/langsim.modules.local_lm.neural_sixgram2.html#module-langsim.modules.local_lm.neural_sixgram2" title="langsim.modules.local_lm.neural_sixgram2"><code class="xref py py-mod docutils literal"><span class="pre">neural_sixgram2</span></code></a>.</p>
+<p>The pipeline also includes training on some language pairs not reported in the paper.</p>
+</div>
+<div class="section" id="char-embed-corrupt">
+<h3>char_embed_corrupt<a class="headerlink" href="#char-embed-corrupt" title="Permalink to this headline">¶</a></h3>
+<p>Language corruption experiments to test Xsym&#8217;s robustness to different types of noise.</p>
+<p>This pipeline implements the language corruption experiments reported in the paper.
+It takes real language data (Finnish forum posts) and applies random corruptions to
+it, training Xsym on uncorrupted and corrupted pairs.</p>
+</div>
+</div>
+<div class="section" id="corpora">
+<h2>Corpora<a class="headerlink" href="#corpora" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ylilauta">
+<h3>Ylilauta<a class="headerlink" href="#ylilauta" title="Permalink to this headline">¶</a></h3>
+<p>Finnish forum posts.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://urn.fi/urn:nbn:fi:lb-2016101211">Download</a>.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="estonian-reference-corpus">
+<h3>Estonian Reference Corpus<a class="headerlink" href="#estonian-reference-corpus" title="Permalink to this headline">¶</a></h3>
+<p>Corpus of written Estonian from a variety of sources.
+Here we use just the subsets: <code class="docutils literal"><span class="pre">tasakaalus_ajalehed</span></code> and <code class="docutils literal"><span class="pre">foorumid_lausestatud</span></code>.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://www.cl.ut.ee/korpused/segakorpus/">Corpus</a></li>
+<li><a class="reference external" href="http://www.cl.ut.ee/korpused/segakorpus/uusmeedia/foorumid">Forum post subset</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="danish-wikipedia-dump">
+<h3>Danish Wikipedia dump<a class="headerlink" href="#danish-wikipedia-dump" title="Permalink to this headline">¶</a></h3>
+<p>Text dump of Danish Wikipedia.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://linguatools.org/tools/corpora/wikipedia-monolingual-corpora/">Download</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="europarl">
+<h3>Europarl<a class="headerlink" href="#europarl" title="Permalink to this headline">¶</a></h3>
+<p>The Europarl corpus of transcripts from the European Parliament.</p>
+<p>Download the full source release. We use the Swedish, Spanish and Portuguese parts.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://www.statmt.org/europarl/">Homepage</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="multilingual-resource-collection-of-the-university-of-helsinki-language-corpus-server-uhlcs">
+<h3>Multilingual Resource Collection of the University of Helsinki Language Corpus Server (UHLCS)<a class="headerlink" href="#multilingual-resource-collection-of-the-university-of-helsinki-language-corpus-server-uhlcs" title="Permalink to this headline">¶</a></h3>
+<p>Data used to be available from the homepage, but is now available through the CSC.
+You&#8217;ll need to request access to the specific language datasets used.</p>
+<p>The data you get is messy, in inconsistent formats and encodings. See the code distributed
+separately for how to preprocess this and get it into a useable textual form, which we use below.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://www.ling.helsinki.fi/uhlcs/">UHLCS homepage</a></li>
+<li><a class="reference external" href="https://www.csc.fi/">CSC</a></li>
+<li><a class="reference external" href="https://mark.granroth-wilding.co.uk/papers/unsup_symbol/">My code for preparing the corpora</a></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/langsim.modules.html">Pimlico modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/langsim.html">API docs</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Codebase for SCiL 2019 paper</a><ul>
+<li><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li><a class="reference internal" href="#pipelines">Pipelines</a><ul>
+<li><a class="reference internal" href="#char-embed-corpora">char_embed_corpora</a></li>
+<li><a class="reference internal" href="#char-embed-corrupt">char_embed_corrupt</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#corpora">Corpora</a><ul>
+<li><a class="reference internal" href="#ylilauta">Ylilauta</a></li>
+<li><a class="reference internal" href="#estonian-reference-corpus">Estonian Reference Corpus</a></li>
+<li><a class="reference internal" href="#danish-wikipedia-dump">Danish Wikipedia dump</a></li>
+<li><a class="reference internal" href="#europarl">Europarl</a></li>
+<li><a class="reference internal" href="#multilingual-resource-collection-of-the-university-of-helsinki-language-corpus-server-uhlcs">Multilingual Resource Collection of the University of Helsinki Language Corpus Server (UHLCS)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="modules/langsim.modules.html"
+                        title="next chapter">Pimlico modules</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules/langsim.modules.html" title="Pimlico modules"
+             >next</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Xsym training 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2018, Mark Granroth-Wilding.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

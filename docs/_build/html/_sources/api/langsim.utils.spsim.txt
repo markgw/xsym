@@ -1,0 +1,17 @@
+langsim\.utils\.spsim package
+=============================
+
+Submodules
+----------
+
+.. toctree::
+
+   langsim.utils.spsim.stringology
+
+Module contents
+---------------
+
+.. automodule:: langsim.utils.spsim
+    :members:
+    :undoc-members:
+    :show-inheritance:

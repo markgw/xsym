@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>langsim.datatypes.word_dict module &mdash; Langsim 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Langsim 1.0 documentation" href="../index.html"/>
+        <link rel="up" title="langsim.datatypes package" href="langsim.datatypes.html"/>
+        <link rel="next" title="langsim.utils package" href="langsim.utils.html"/>
+        <link rel="prev" title="langsim.datatypes.word2vecf module" href="langsim.datatypes.word2vecf.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Langsim
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../modules/langsim.modules.html">Pimlico modules</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="langsim.html">API docs</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="langsim.datatypes.html">langsim.datatypes package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="langsim.datatypes.fake.html">langsim.datatypes.fake module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.datatypes.kondrak.html">langsim.datatypes.kondrak module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.datatypes.raw_lines.html">langsim.datatypes.raw_lines module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.datatypes.word2vecf.html">langsim.datatypes.word2vecf module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">langsim.datatypes.word_dict module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="langsim.utils.html">langsim.utils package</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Langsim</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="langsim.html">langsim package</a> &raquo;</li>
+      
+          <li><a href="langsim.datatypes.html">langsim.datatypes package</a> &raquo;</li>
+      
+    <li>langsim.datatypes.word_dict module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api/langsim.datatypes.word_dict.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-langsim.datatypes.word_dict">
+<span id="langsim-datatypes-word-dict-module"></span><h1>langsim.datatypes.word_dict module<a class="headerlink" href="#module-langsim.datatypes.word_dict" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="langsim.datatypes.word_dict.WordDictionary">
+<em class="property">class </em><code class="descname">WordDictionary</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/word_dict.html#WordDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pimlico.datatypes.base.PimlicoDatatype</span></code></p>
+<p>Dictionary for words (like the standard vocabulary/dictionary data structure) built from
+a corpus that has is encoded by character, maintaining the original character ID representation
+for each word.</p>
+<dl class="attribute">
+<dt id="langsim.datatypes.word_dict.WordDictionary.char_vocab">
+<code class="descname">char_vocab</code><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionary.char_vocab" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="langsim.datatypes.word_dict.WordDictionary.word_list">
+<code class="descname">word_list</code><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionary.word_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="langsim.datatypes.word_dict.WordDictionary.word_counts">
+<code class="descname">word_counts</code><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionary.word_counts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="langsim.datatypes.word_dict.WordDictionary.dfs">
+<code class="descname">dfs</code><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionary.dfs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="langsim.datatypes.word_dict.WordDictionary.id2token">
+<code class="descname">id2token</code><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionary.id2token" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="langsim.datatypes.word_dict.WordDictionary.token2id">
+<code class="descname">token2id</code><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionary.token2id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="langsim.datatypes.word_dict.WordDictionary.words">
+<code class="descname">words</code><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionary.words" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="langsim.datatypes.word_dict.WordDictionary.id2word">
+<code class="descname">id2word</code><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionary.id2word" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.datatypes.word_dict.WordDictionary.keys">
+<code class="descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/word_dict.html#WordDictionary.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionary.keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all tokens.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="langsim.datatypes.word_dict.WordDictionary.get_detailed_status">
+<code class="descname">get_detailed_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/word_dict.html#WordDictionary.get_detailed_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionary.get_detailed_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="langsim.datatypes.word_dict.WordDictionaryWriter">
+<em class="property">class </em><code class="descname">WordDictionaryWriter</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/word_dict.html#WordDictionaryWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionaryWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pimlico.datatypes.base.PimlicoDatatypeWriter</span></code></p>
+<dl class="method">
+<dt id="langsim.datatypes.word_dict.WordDictionaryWriter.write_char_vocab">
+<code class="descname">write_char_vocab</code><span class="sig-paren">(</span><em>vocab</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/word_dict.html#WordDictionaryWriter.write_char_vocab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionaryWriter.write_char_vocab" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.datatypes.word_dict.WordDictionaryWriter.write_word_list">
+<code class="descname">write_word_list</code><span class="sig-paren">(</span><em>char_ids</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/word_dict.html#WordDictionaryWriter.write_word_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionaryWriter.write_word_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.datatypes.word_dict.WordDictionaryWriter.write_word_counts">
+<code class="descname">write_word_counts</code><span class="sig-paren">(</span><em>counts</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/word_dict.html#WordDictionaryWriter.write_word_counts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.word_dict.WordDictionaryWriter.write_word_counts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="langsim.utils.html" class="btn btn-neutral float-right" title="langsim.utils package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="langsim.datatypes.word2vecf.html" class="btn btn-neutral" title="langsim.datatypes.word2vecf module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Mark Granroth-Wilding.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

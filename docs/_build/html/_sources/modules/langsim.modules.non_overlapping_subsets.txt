@@ -1,0 +1,43 @@
+Non-overlapping subsets
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:module:: langsim.modules.non_overlapping_subsets
+
++------------+-----------------------------------------+
+| Path       | langsim.modules.non_overlapping_subsets |
++------------+-----------------------------------------+
+| Executable | yes                                     |
++------------+-----------------------------------------+
+
+Given a list of corpus, try to produce a randomly selected subset of the documents in each corpus (in the
+form of a document list, like :mod:`~pimlico.modules.corpus.split`, such that no two corpora use documents
+with the same name.
+
+Outputs are named `n`, the number of the corresponding input corpus in the list given
+to `input_corpora` (numbered from 0).
+
+
+Inputs
+======
+
++---------+---------------------------------------------------------------------------------------------------------------------+
+| Name    | Type(s)                                                                                                             |
++=========+=====================================================================================================================+
+| corpora | :class:`list <pimlico.datatypes.base.MultipleInputs>` of :class:`TarredCorpus <pimlico.datatypes.tar.TarredCorpus>` |
++---------+---------------------------------------------------------------------------------------------------------------------+
+
+Outputs
+=======
+
+No outputs
+Options
+=======
+
++--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------+
+| Name         | Description                                                                                                                                                                                                                                   | Type                            |
++==============+===============================================================================================================================================================================================================================================+=================================+
+| corpus_names | If given, name the outputs using this list of names, instead of just using numbers. The list should be the same length as the number of inputs/outputs, but if it's not, additional names will be ignored or unnamed outputs will use numbers | comma-separated list of strings |
++--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------+
+| size         | Proportion of the corpus to put in the selected set, float between 0.0 and 1.0. If an integer >1 is given, this is treated as the absolute number of documents to put in the first set, rather than a proportion. Default: 0.2 (20%)          | float                           |
++--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------+
+

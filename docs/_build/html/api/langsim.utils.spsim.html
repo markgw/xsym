@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>langsim.utils.spsim package &mdash; Langsim 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Langsim 1.0 documentation" href="../index.html"/>
+        <link rel="up" title="langsim.utils package" href="langsim.utils.html"/>
+        <link rel="next" title="langsim.utils.spsim.stringology module" href="langsim.utils.spsim.stringology.html"/>
+        <link rel="prev" title="langsim.utils.faiss.deps module" href="langsim.utils.faiss.deps.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Langsim
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../modules/langsim.modules.html">Pimlico modules</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="langsim.html">API docs</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="langsim.datatypes.html">langsim.datatypes package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="langsim.utils.html">langsim.utils package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="langsim.utils.faiss.html">langsim.utils.faiss package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">langsim.utils.spsim package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="langsim.utils.spsim.stringology.html">langsim.utils.spsim.stringology module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.utils.kirshenbaum.html">langsim.utils.kirshenbaum module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.utils.plotting.html">langsim.utils.plotting module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Langsim</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="langsim.html">langsim package</a> &raquo;</li>
+      
+          <li><a href="langsim.utils.html">langsim.utils package</a> &raquo;</li>
+      
+    <li>langsim.utils.spsim package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api/langsim.utils.spsim.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="langsim-utils-spsim-package">
+<h1>langsim.utils.spsim package<a class="headerlink" href="#langsim-utils-spsim-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="langsim.utils.spsim.stringology.html">langsim.utils.spsim.stringology module</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-langsim.utils.spsim">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-langsim.utils.spsim" title="Permalink to this headline">¶</a></h2>
+<p>Implementation of SpSim algorithm, based on that released by the authors</p>
+<p>This implements the algorithm described in:</p>
+<blockquote>
+<div>Measuring Spelling Similarity for Cognate Identification
+Luís Gomes and José Gabriel Pereira Lopes</div></blockquote>
+<p>Downloaded from <a class="reference external" href="http://research.variancia.com/spsim/">http://research.variancia.com/spsim/</a> and converted to Python 2.</p>
+<dl class="class">
+<dt id="langsim.utils.spsim.SpSim">
+<em class="property">class </em><code class="descname">SpSim</code><span class="sig-paren">(</span><em>examples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/utils/spsim.html#SpSim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.utils.spsim.SpSim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>SpSim is a spelling similarity measure for identifying cognates by
+learning cross-language spelling differences.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">SpSim</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="p">(</span><span class="s1">&#39;phase&#39;</span><span class="p">,</span> <span class="s1">&#39;fase&#39;</span><span class="p">)</span>
+<span class="go">0.6</span>
+</pre></div>
+</div>
+<p>Learning contextualized spelling differences from an example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">learn</span><span class="p">([(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;alfa&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">diffs</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+<span class="go">[(&#39;ph\tf&#39;, &#39;la&#39;)]</span>
+</pre></div>
+</div>
+<p>SpSim has learned that &#8216;ph&#8217; may be replaced by &#8216;f&#8217; if &#8216;ph&#8217; comes after &#8216;l&#8217;
+and before &#8216;a&#8217;.</p>
+<p>Generalizing the admissible contexts of known spelling differences:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">learn</span><span class="p">([(</span><span class="s1">&#39;phase&#39;</span><span class="p">,</span> <span class="s1">&#39;fase&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">diffs</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+<span class="go">[(&#39;ph\tf&#39;, &#39;*a&#39;)]</span>
+</pre></div>
+</div>
+<p>SpSim has learned that &#8216;ph&#8217; may be replaced by &#8216;f&#8217; if it comes before &#8216;a&#8217;.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="o">.</span><span class="n">learn</span><span class="p">([(</span><span class="s1">&#39;photo&#39;</span><span class="p">,</span> <span class="s1">&#39;foto&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">diffs</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+<span class="go">[(&#39;ph\tf&#39;, &#39;**&#39;)]</span>
+</pre></div>
+</div>
+<p>SpSim has learned that &#8216;ph&#8217; may be replaced by &#8216;f&#8217;.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span><span class="p">(</span><span class="s1">&#39;phenomenal&#39;</span><span class="p">,</span> <span class="s1">&#39;fenomenal&#39;</span><span class="p">)</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="langsim.utils.spsim.SpSim.learn">
+<code class="descname">learn</code><span class="sig-paren">(</span><em>examples</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/utils/spsim.html#SpSim.learn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.utils.spsim.SpSim.learn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="langsim.utils.spsim.stringology.html" class="btn btn-neutral float-right" title="langsim.utils.spsim.stringology module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="langsim.utils.faiss.deps.html" class="btn btn-neutral" title="langsim.utils.faiss.deps module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Mark Granroth-Wilding.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Est Ref normalization &mdash; Xsym training 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Xsym training 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Input readers" href="langsim.modules.input.html" />
+    <link rel="next" title="Europarl corpus reader" href="langsim.modules.input.europarl.html" />
+    <link rel="prev" title="Input readers" href="langsim.modules.input.html" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body role="document">
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.input.europarl.html" title="Europarl corpus reader"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.input.html" title="Input readers"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="langsim.modules.html" >Pimlico modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="langsim.modules.input.html" accesskey="U">Input readers</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-langsim.modules.input.est_ref_normalize">
+<span id="est-ref-normalization"></span><h1>Est Ref normalization<a class="headerlink" href="#module-langsim.modules.input.est_ref_normalize" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Path</td>
+<td>langsim.modules.input.est_ref_normalize</td>
+</tr>
+<tr class="row-even"><td>Executable</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p>Special normalization routine for Estonian Reference Corpus.</p>
+<p>Splits up sentences into separate lines. This is easy to do, since the
+corpus puts a double space between sentences. There are also double
+spaces in other places, so we only split on double spaces after punctuation.
+Other double spaces are removed.</p>
+<p>We also lower-case the whole corpus.</p>
+<div class="section" id="inputs">
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type(s)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>corpus</td>
+<td>TarredCorpus&lt;TextDocumentType&gt;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="outputs">
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type(s)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>corpus</td>
+<td><code class="xref py py-class docutils literal"><span class="pre">RawTextDocumentTypeTarredCorpus</span></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="88%" />
+<col width="6%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+<th class="head">Type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>forum</td>
+<td>Set to T for processing the forum data, which is slightly different to the newspaper data</td>
+<td>bool</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Est Ref normalization</a><ul>
+<li><a class="reference internal" href="#inputs">Inputs</a></li>
+<li><a class="reference internal" href="#outputs">Outputs</a></li>
+<li><a class="reference internal" href="#options">Options</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="langsim.modules.input.html"
+                        title="previous chapter">Input readers</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="langsim.modules.input.europarl.html"
+                        title="next chapter">Europarl corpus reader</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.input.europarl.html" title="Europarl corpus reader"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.input.html" title="Input readers"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="langsim.modules.html" >Pimlico modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="langsim.modules.input.html" >Input readers</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2018, Mark Granroth-Wilding.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

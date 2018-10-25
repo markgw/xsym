@@ -1,0 +1,39 @@
+Store in TSV format
+~~~~~~~~~~~~~~~~~~~
+
+.. py:module:: langsim.modules.local_lm.store_tsv
+
++------------+------------------------------------+
+| Path       | langsim.modules.local_lm.store_tsv |
++------------+------------------------------------+
+| Executable | yes                                |
++------------+------------------------------------+
+
+Takes embeddings stored in the default format used within Pimlico pipelines
+(see :class:`~pimlico.datatypes.embeddings.Embeddings`) and stores them
+as TSV files.
+
+These are suitable as input to the `Tensorflow Projector <https://projector.tensorflow.org/>`_.
+
+Like the built-in store_tsv module, but includes some additional language information in the
+metadata to help with visualization.
+
+
+Inputs
+======
+
++------------+---------------------------------------------------------------+
+| Name       | Type(s)                                                       |
++============+===============================================================+
+| embeddings | :class:`Embeddings <pimlico.datatypes.embeddings.Embeddings>` |
++------------+---------------------------------------------------------------+
+
+Outputs
+=======
+
++------------+----------------------------------------------------+
+| Name       | Type(s)                                            |
++============+====================================================+
+| embeddings | :class:`~pimlico.datatypes.embeddings.TSVVecFiles` |
++------------+----------------------------------------------------+
+

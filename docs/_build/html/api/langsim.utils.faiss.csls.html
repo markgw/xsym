@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>langsim.utils.faiss.csls module &mdash; Langsim 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Langsim 1.0 documentation" href="../index.html"/>
+        <link rel="up" title="langsim.utils.faiss package" href="langsim.utils.faiss.html"/>
+        <link rel="next" title="langsim.utils.faiss.deps module" href="langsim.utils.faiss.deps.html"/>
+        <link rel="prev" title="langsim.utils.faiss package" href="langsim.utils.faiss.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Langsim
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../modules/langsim.modules.html">Pimlico modules</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="langsim.html">API docs</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="langsim.datatypes.html">langsim.datatypes package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="langsim.utils.html">langsim.utils package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="langsim.utils.faiss.html">langsim.utils.faiss package</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="">langsim.utils.faiss.csls module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="langsim.utils.faiss.deps.html">langsim.utils.faiss.deps module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.utils.spsim.html">langsim.utils.spsim package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.utils.kirshenbaum.html">langsim.utils.kirshenbaum module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.utils.plotting.html">langsim.utils.plotting module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Langsim</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="langsim.html">langsim package</a> &raquo;</li>
+      
+          <li><a href="langsim.utils.html">langsim.utils package</a> &raquo;</li>
+      
+          <li><a href="langsim.utils.faiss.html">langsim.utils.faiss package</a> &raquo;</li>
+      
+    <li>langsim.utils.faiss.csls module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api/langsim.utils.faiss.csls.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-langsim.utils.faiss.csls">
+<span id="langsim-utils-faiss-csls-module"></span><h1>langsim.utils.faiss.csls module<a class="headerlink" href="#module-langsim.utils.faiss.csls" title="Permalink to this headline">¶</a></h1>
+<p>CSLS computation tool</p>
+<p>Tool to compute the Cross-Domain Similarity Local Scaling (CSLS) measure from the Conneau paper.</p>
+<p>Uses Faiss, which will be imported on module import. Make sure</p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>you give your Pimlico module a <cite>faiss_dependency</cite> (see <cite>deps</cite>); and</li>
+<li>you only import this module at runtime, e.g. from your module executor.</li>
+</ol>
+</div></blockquote>
+<dl class="class">
+<dt id="langsim.utils.faiss.csls.CSLSCalculator">
+<em class="property">class </em><code class="descname">CSLSCalculator</code><span class="sig-paren">(</span><em>target_vectors</em>, <em>source_vectors=None</em>, <em>k=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/utils/faiss/csls.html#CSLSCalculator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.utils.faiss.csls.CSLSCalculator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Target vectors are given at init time, since we can index them straight away. Going the other way
+is more time-consuming, since the mapped source vectors change between each time we want to
+compute CSLS, so we have to reindex them every time.</p>
+<p>Distances are computed as dot products, so input vectors should be euclidean normalized, so that
+the result is cosine distances.</p>
+<p>The paper describes how CSLS is computed for each of the top 10k most frequent source words to
+generate translations of them. It doesn&#8217;t mention a limit on the candidates for translation, so
+presumably it&#8217;s just the 200k limit put on all experiments. However, when using this as a validation
+metric, it hardly seems necessary to compute CSLS with all of the 200k words, when we have an index
+that can give us the top cosine similarities and something with a low cos sim should never end up
+in the top CSLS candidates (especially when we&#8217;re only interested in the top candidate).</p>
+<p>We therefore allow a limit to be set on computing CSLS, restricting to just the nearest N words
+by cosine. It defaults to 200k, but in the case of computing the validation metric you almost
+certainly want to set it to something much smaller.</p>
+<dl class="method">
+<dt id="langsim.utils.faiss.csls.CSLSCalculator.set_source_vectors">
+<code class="descname">set_source_vectors</code><span class="sig-paren">(</span><em>source_vectors</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/utils/faiss/csls.html#CSLSCalculator.set_source_vectors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.utils.faiss.csls.CSLSCalculator.set_source_vectors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.utils.faiss.csls.CSLSCalculator.compute_rs">
+<code class="descname">compute_rs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/utils/faiss/csls.html#CSLSCalculator.compute_rs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.utils.faiss.csls.CSLSCalculator.compute_rs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call after source vectors have been set to compute the r-values for all source and all target
+vectors.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="langsim.utils.faiss.csls.CSLSCalculator.source_translations_by_cosine_multi">
+<code class="descname">source_translations_by_cosine_multi</code><span class="sig-paren">(</span><em>source_indices</em>, <em>top_neighbours=200000</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/utils/faiss/csls.html#CSLSCalculator.source_translations_by_cosine_multi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.utils.faiss.csls.CSLSCalculator.source_translations_by_cosine_multi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.utils.faiss.csls.CSLSCalculator.target_translations_by_cosine_multi">
+<code class="descname">target_translations_by_cosine_multi</code><span class="sig-paren">(</span><em>target_indices</em>, <em>top_neighbours=200000</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/utils/faiss/csls.html#CSLSCalculator.target_translations_by_cosine_multi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.utils.faiss.csls.CSLSCalculator.target_translations_by_cosine_multi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.utils.faiss.csls.CSLSCalculator.source_translations_by_csls_multi">
+<code class="descname">source_translations_by_csls_multi</code><span class="sig-paren">(</span><em>source_indices</em>, <em>top_neighbours=200000</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/utils/faiss/csls.html#CSLSCalculator.source_translations_by_csls_multi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.utils.faiss.csls.CSLSCalculator.source_translations_by_csls_multi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.utils.faiss.csls.CSLSCalculator.target_translations_by_csls_multi">
+<code class="descname">target_translations_by_csls_multi</code><span class="sig-paren">(</span><em>target_indices</em>, <em>top_neighbours=200000</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/utils/faiss/csls.html#CSLSCalculator.target_translations_by_csls_multi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.utils.faiss.csls.CSLSCalculator.target_translations_by_csls_multi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.utils.faiss.csls.CSLSCalculator.source_translations_by_csls">
+<code class="descname">source_translations_by_csls</code><span class="sig-paren">(</span><em>source_index</em>, <em>top_neighbours=200000</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/utils/faiss/csls.html#CSLSCalculator.source_translations_by_csls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.utils.faiss.csls.CSLSCalculator.source_translations_by_csls" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.utils.faiss.csls.CSLSCalculator.target_translations_by_csls">
+<code class="descname">target_translations_by_csls</code><span class="sig-paren">(</span><em>target_index</em>, <em>top_neighbours=200000</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/utils/faiss/csls.html#CSLSCalculator.target_translations_by_csls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.utils.faiss.csls.CSLSCalculator.target_translations_by_csls" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="langsim.utils.faiss.deps.html" class="btn btn-neutral float-right" title="langsim.utils.faiss.deps module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="langsim.utils.faiss.html" class="btn btn-neutral" title="langsim.utils.faiss package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Mark Granroth-Wilding.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+Word dictionaries
+~~~~~~~~~~~~~~~~~
+
+
+.. py:module:: langsim.modules.word_dictionary
+
+
+
+.. toctree::
+   :maxdepth: 2
+   :titlesonly:
+
+   langsim.modules.word_dictionary.build
+   langsim.modules.word_dictionary.word_dict_to_dict

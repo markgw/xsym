@@ -1,0 +1,33 @@
+Phoneme pairings from learned embeddings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:module:: langsim.modules.cognates.phoneme_pair_weights.embedding_sim
+
++------------+-------------------------------------------------------------+
+| Path       | langsim.modules.cognates.phoneme_pair_weights.embedding_sim |
++------------+-------------------------------------------------------------+
+| Executable | yes                                                         |
++------------+-------------------------------------------------------------+
+
+Get phoneme pairing scores, as initialization for the Kondrak model,
+from similarities of phoneme embeddings.
+
+
+Inputs
+======
+
++------------+---------------------------------------------------------------------------------------------------------------------+
+| Name       | Type(s)                                                                                                             |
++============+=====================================================================================================================+
+| embeddings | :class:`PhonemeEmbeddingsDatatype <langsim.modules.local_lm.phoneme_embedding.datatypes.PhonemeEmbeddingsDatatype>` |
++------------+---------------------------------------------------------------------------------------------------------------------+
+
+Outputs
+=======
+
++---------+-----------------------------------------------+
+| Name    | Type(s)                                       |
++=========+===============================================+
+| weights | :class:`~pimlico.datatypes.arrays.NumpyArray` |
++---------+-----------------------------------------------+
+

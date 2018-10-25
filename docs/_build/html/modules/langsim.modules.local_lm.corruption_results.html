@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Corruption results &mdash; Xsym training 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Xsym training 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Symbol embedding methods" href="langsim.modules.local_lm.html" />
+    <link rel="next" title="Learned embedding analysis" href="langsim.modules.local_lm.embed_anal.html" />
+    <link rel="prev" title="Symbol embedding methods" href="langsim.modules.local_lm.html" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body role="document">
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.local_lm.embed_anal.html" title="Learned embedding analysis"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.local_lm.html" title="Symbol embedding methods"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="langsim.modules.html" >Pimlico modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="langsim.modules.local_lm.html" accesskey="U">Symbol embedding methods</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-langsim.modules.local_lm.corruption_results">
+<span id="corruption-results"></span><h1>Corruption results<a class="headerlink" href="#module-langsim.modules.local_lm.corruption_results" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Path</td>
+<td>langsim.modules.local_lm.corruption_results</td>
+</tr>
+<tr class="row-even"><td>Executable</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p>Collect results from the corruption experiments, including models trained on corrupted
+corpora, and analyse them.</p>
+<div class="section" id="inputs">
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type(s)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>corruption_params</td>
+<td><code class="xref py py-class docutils literal"><span class="pre">list</span></code> of A file collection containing at least one file (or a given specific number). No constraint is put on the name of the file(s). Typically, the module will just use whatever the first file(s) in the collection is</td>
+</tr>
+<tr class="row-odd"><td>models</td>
+<td><code class="xref py py-class docutils literal"><span class="pre">list</span></code> of <code class="xref py py-class docutils literal"><span class="pre">KerasModelBuilderClass</span></code></td>
+</tr>
+<tr class="row-even"><td>vocab1s</td>
+<td><code class="xref py py-class docutils literal"><span class="pre">list</span></code> of <code class="xref py py-class docutils literal"><span class="pre">Dictionary</span></code></td>
+</tr>
+<tr class="row-odd"><td>vocab2s</td>
+<td><code class="xref py py-class docutils literal"><span class="pre">list</span></code> of <code class="xref py py-class docutils literal"><span class="pre">Dictionary</span></code></td>
+</tr>
+<tr class="row-even"><td>mapped_pairs</td>
+<td><code class="xref py py-class docutils literal"><span class="pre">list</span></code> of A file collection containing at least one file (or a given specific number). No constraint is put on the name of the file(s). Typically, the module will just use whatever the first file(s) in the collection is</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="outputs">
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type(s)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>analysis</td>
+<td><code class="xref py py-func docutils literal"><span class="pre">NamedFile()</span></code></td>
+</tr>
+<tr class="row-odd"><td>files</td>
+<td><code class="xref py py-class docutils literal"><span class="pre">UnnamedFileCollection</span></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Corruption results</a><ul>
+<li><a class="reference internal" href="#inputs">Inputs</a></li>
+<li><a class="reference internal" href="#outputs">Outputs</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="langsim.modules.local_lm.html"
+                        title="previous chapter">Symbol embedding methods</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="langsim.modules.local_lm.embed_anal.html"
+                        title="next chapter">Learned embedding analysis</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.local_lm.embed_anal.html" title="Learned embedding analysis"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.local_lm.html" title="Symbol embedding methods"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="langsim.modules.html" >Pimlico modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="langsim.modules.local_lm.html" >Symbol embedding methods</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2018, Mark Granroth-Wilding.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

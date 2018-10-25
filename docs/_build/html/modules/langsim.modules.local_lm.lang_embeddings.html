@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Language-specific embeddings &mdash; Xsym training 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Xsym training 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Symbol embedding methods" href="langsim.modules.local_lm.html" />
+    <link rel="next" title="Neural sixgram (Xsym) trainer, v1" href="langsim.modules.local_lm.neural_sixgram.html" />
+    <link rel="prev" title="Embeddings from model" href="langsim.modules.local_lm.embeddings_from_model.html" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body role="document">
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.local_lm.neural_sixgram.html" title="Neural sixgram (Xsym) trainer, v1"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.local_lm.embeddings_from_model.html" title="Embeddings from model"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="langsim.modules.html" >Pimlico modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="langsim.modules.local_lm.html" accesskey="U">Symbol embedding methods</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-langsim.modules.local_lm.lang_embeddings">
+<span id="language-specific-embeddings"></span><h1>Language-specific embeddings<a class="headerlink" href="#module-langsim.modules.local_lm.lang_embeddings" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Path</td>
+<td>langsim.modules.local_lm.lang_embeddings</td>
+</tr>
+<tr class="row-even"><td>Executable</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p>Separate out the embeddings belonging to the two languages, identified by
+prefixes on the words.</p>
+<p>It&#8217;s assumed that all embeddings for language &#8220;X&#8221; have words of the form
+&#8220;X:word&#8221;.</p>
+<p>This only works currently for cases where there are exactly two languages.</p>
+<div class="section" id="inputs">
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type(s)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>embeddings</td>
+<td><code class="xref py py-class docutils literal"><span class="pre">Embeddings</span></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="outputs">
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type(s)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>lang1_embeddings</td>
+<td><code class="xref py py-class docutils literal"><span class="pre">Embeddings</span></code></td>
+</tr>
+<tr class="row-odd"><td>lang2_embeddings</td>
+<td><code class="xref py py-class docutils literal"><span class="pre">Embeddings</span></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="88%" />
+<col width="7%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Description</th>
+<th class="head">Type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>lang1</td>
+<td>Prefixes for language 1. If not given, language 1 is taken to be whichever appears first in the vocabulary</td>
+<td>string</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Language-specific embeddings</a><ul>
+<li><a class="reference internal" href="#inputs">Inputs</a></li>
+<li><a class="reference internal" href="#outputs">Outputs</a></li>
+<li><a class="reference internal" href="#options">Options</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="langsim.modules.local_lm.embeddings_from_model.html"
+                        title="previous chapter">Embeddings from model</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="langsim.modules.local_lm.neural_sixgram.html"
+                        title="next chapter">Neural sixgram (Xsym) trainer, v1</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.local_lm.neural_sixgram.html" title="Neural sixgram (Xsym) trainer, v1"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="langsim.modules.local_lm.embeddings_from_model.html" title="Embeddings from model"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="langsim.modules.html" >Pimlico modules</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="langsim.modules.local_lm.html" >Symbol embedding methods</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2018, Mark Granroth-Wilding.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+Character-level corpus to ID mapper
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:module:: langsim.modules.char_vocab_mapper
+
++------------+-----------------------------------+
+| Path       | langsim.modules.char_vocab_mapper |
++------------+-----------------------------------+
+| Executable | yes                               |
++------------+-----------------------------------+
+
+Character-level equivalent of the core Pimlico vocab mapper, which operates on tokens. This take raw text
+as input instead.
+
+DEPRECATED: You can use the standard vocab mapper module, if you use a SegmentedLinesCorpus as input.
+Then the individual characters get treated as words.
+
+
+Inputs
+======
+
++-------+---------------------------------------------------------------+
+| Name  | Type(s)                                                       |
++=======+===============================================================+
+| text  | TarredCorpus<RawTextLinesDocumentType>                        |
++-------+---------------------------------------------------------------+
+| vocab | :class:`Dictionary <pimlico.datatypes.dictionary.Dictionary>` |
++-------+---------------------------------------------------------------+
+
+Outputs
+=======
+
++------+-------------------------------------------------------------+
+| Name | Type(s)                                                     |
++======+=============================================================+
+| ids  | :class:`~pimlico.datatypes.ints.IntegerListsDocumentCorpus` |
++------+-------------------------------------------------------------+
+
+Options
+=======
+
++------+--------------------------------------------------------------------------------------------+--------+
+| Name | Description                                                                                | Type   |
++======+============================================================================================+========+
+| oov  | If given, special token to map all OOV characters to. Otherwise, use vocab_size+1 as index | string |
++------+--------------------------------------------------------------------------------------------+--------+
+

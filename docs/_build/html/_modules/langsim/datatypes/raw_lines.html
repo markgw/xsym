@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>langsim.datatypes.raw_lines &mdash; Xsym training 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Xsym training 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../../../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body role="document">
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for langsim.datatypes.raw_lines</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">pimlico.cli.browser.formatter</span> <span class="kn">import</span> <span class="n">DocumentBrowserFormatter</span>
+<span class="kn">from</span> <span class="nn">pimlico.datatypes.base</span> <span class="kn">import</span> <span class="n">InvalidDocument</span>
+<span class="kn">from</span> <span class="nn">pimlico.datatypes.documents</span> <span class="kn">import</span> <span class="n">RawTextDocumentType</span><span class="p">,</span> <span class="n">TextDocumentType</span>
+<span class="kn">from</span> <span class="nn">pimlico.datatypes.tar</span> <span class="kn">import</span> <span class="n">TarredCorpus</span><span class="p">,</span> <span class="n">TarredCorpusWriter</span>
+
+
+<div class="viewcode-block" id="RawTextLinesDocumentType"><a class="viewcode-back" href="../../../api/langsim.datatypes.raw_lines.html#langsim.datatypes.fake.RawTextLinesDocumentType">[docs]</a><span class="k">class</span> <span class="nc">RawTextLinesDocumentType</span><span class="p">(</span><span class="n">TextDocumentType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Like a raw-text document, but the data is assumed to have been split up in some way into subtexts,</span>
+<span class="sd">    each consisting of a line. The subtexts may not include line breaks.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">formatters</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;textlines&quot;</span><span class="p">,</span> <span class="s2">&quot;langsim.datatypes.raw_lines.RawTextLinesFormatter&quot;</span><span class="p">)]</span>
+
+<div class="viewcode-block" id="RawTextLinesDocumentType.process_document"><a class="viewcode-back" href="../../../api/langsim.datatypes.raw_lines.html#langsim.datatypes.fake.RawTextLinesDocumentType.process_document">[docs]</a>    <span class="k">def</span> <span class="nf">process_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">as_type</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">RawTextLinesDocumentType</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">process_document</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">as_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">as_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">RawTextLinesDocumentType</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">text</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">u&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="RawTextLinesFormatter"><a class="viewcode-back" href="../../../api/langsim.datatypes.raw_lines.html#langsim.datatypes.fake.RawTextLinesFormatter">[docs]</a><span class="k">class</span> <span class="nc">RawTextLinesFormatter</span><span class="p">(</span><span class="n">DocumentBrowserFormatter</span><span class="p">):</span>
+    <span class="n">DATATYPE</span> <span class="o">=</span> <span class="n">RawTextLinesDocumentType</span>
+
+<div class="viewcode-block" id="RawTextLinesFormatter.format_document"><a class="viewcode-back" href="../../../api/langsim.datatypes.raw_lines.html#langsim.datatypes.fake.RawTextLinesFormatter.format_document">[docs]</a>    <span class="k">def</span> <span class="nf">format_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">u&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="RawTextLinesCorpus"><a class="viewcode-back" href="../../../api/langsim.datatypes.raw_lines.html#langsim.datatypes.fake.RawTextLinesCorpus">[docs]</a><span class="k">class</span> <span class="nc">RawTextLinesCorpus</span><span class="p">(</span><span class="n">TarredCorpus</span><span class="p">):</span>
+    <span class="n">datatype_name</span> <span class="o">=</span> <span class="s2">&quot;raw_text_lines&quot;</span>
+    <span class="n">data_point_type</span> <span class="o">=</span> <span class="n">RawTextLinesDocumentType</span></div>
+
+
+<div class="viewcode-block" id="RawTextLinesCorpusWriter"><a class="viewcode-back" href="../../../api/langsim.datatypes.raw_lines.html#langsim.datatypes.fake.RawTextLinesCorpusWriter">[docs]</a><span class="k">class</span> <span class="nc">RawTextLinesCorpusWriter</span><span class="p">(</span><span class="n">TarredCorpusWriter</span><span class="p">):</span>
+<div class="viewcode-block" id="RawTextLinesCorpusWriter.document_to_raw_data"><a class="viewcode-back" href="../../../api/langsim.datatypes.raw_lines.html#langsim.datatypes.fake.RawTextLinesCorpusWriter.document_to_raw_data">[docs]</a>    <span class="k">def</span> <span class="nf">document_to_raw_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">InvalidDocument</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">doc</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">u&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">u&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">u&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2018, Mark Granroth-Wilding.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

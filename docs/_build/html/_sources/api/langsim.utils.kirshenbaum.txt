@@ -1,0 +1,7 @@
+langsim\.utils\.kirshenbaum module
+==================================
+
+.. automodule:: langsim.utils.kirshenbaum
+    :members:
+    :undoc-members:
+    :show-inheritance:

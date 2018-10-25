@@ -1,0 +1,7 @@
+langsim\.utils\.faiss\.deps module
+==================================
+
+.. automodule:: langsim.utils.faiss.deps
+    :members:
+    :undoc-members:
+    :show-inheritance:

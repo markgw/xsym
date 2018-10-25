@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Phonological transcription filter &mdash; Langsim 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Langsim 1.0 documentation" href="../index.html"/>
+        <link rel="up" title="Language-model phoneme embeddings" href="langsim.modules.local_lm.html"/>
+        <link rel="next" title="Phoneme embedding filter" href="langsim.modules.local_lm.phoneme_embedding.html"/>
+        <link rel="prev" title="Neural trigram trainer" href="langsim.modules.local_lm.neural_trigram.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Langsim
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="langsim.modules.html">Pimlico modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="langsim.modules.cognates.html">Cognate identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="langsim.modules.embedding_map.html">Embedding space mappings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="langsim.modules.espeak.html">Espeak</a></li>
+<li class="toctree-l2"><a class="reference internal" href="langsim.modules.fake_language.html">Fake language tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="langsim.modules.input.html">Input readers</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="langsim.modules.local_lm.html">Language-model phoneme embeddings</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="langsim.modules.local_lm.neural_sixgram.html">Neural sixgram trainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.modules.local_lm.neural_sixgram2.html">Neural sixgram trainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.modules.local_lm.neural_trigram.html">Neural trigram trainer</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Phonological transcription filter</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.modules.local_lm.phoneme_embedding.html">Phoneme embedding filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.modules.local_lm.plot.html">Plot output from neural ngram models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.modules.local_lm.val_crit_correlation.html">Validation criterion correlation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="langsim.modules.ngram_counter.html">Ngram counter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="langsim.modules.non_overlapping_subsets.html">Non-overlapping subsets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="langsim.modules.word2vecf.html">Word2vecf tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="langsim.modules.word_dictionary.html">Word dictionaries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/langsim.html">API docs</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Langsim</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="langsim.modules.html">Langsim Pimlico modules</a> &raquo;</li>
+      
+          <li><a href="langsim.modules.local_lm.html">Language-model phoneme embeddings</a> &raquo;</li>
+      
+    <li>Phonological transcription filter</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/modules/langsim.modules.local_lm.phon_filter.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-langsim.modules.local_lm.phon_filter">
+<span id="phonological-transcription-filter"></span><h1>Phonological transcription filter<a class="headerlink" href="#module-langsim.modules.local_lm.phon_filter" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Path</td>
+<td>langsim.modules.local_lm.phon_filter</td>
+</tr>
+<tr class="row-even"><td>Executable</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="inputs">
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type(s)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>corpus</td>
+<td>TarredCorpus&lt;RawTextLinesDocumentType&gt;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="outputs">
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head">Type(s)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>corpus</td>
+<td><code class="xref py py-class docutils literal"><span class="pre">SegmentedLinesDocumentTypeTarredCorpus</span></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="langsim.modules.local_lm.phoneme_embedding.html" class="btn btn-neutral float-right" title="Phoneme embedding filter" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="langsim.modules.local_lm.neural_trigram.html" class="btn btn-neutral" title="Neural trigram trainer" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Mark Granroth-Wilding.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

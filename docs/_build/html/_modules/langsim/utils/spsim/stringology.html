@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>langsim.utils.spsim.stringology &mdash; Xsym training 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="Xsym training 1.0 documentation" href="../../../../index.html" />
+    <link rel="up" title="langsim.utils.spsim" href="../spsim.html" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../../../../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body role="document">
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../spsim.html" accesskey="U">langsim.utils.spsim</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for langsim.utils.spsim.stringology</h1><div class="highlight"><pre>
+<span class="c1"># -*- coding: utf8 -*-</span>
+<span class="sd">&quot;&quot;&quot;Stringology</span>
+
+<span class="sd">Utility functions, adapted from official release of SpSim.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="ed"><a class="viewcode-back" href="../../../../api/langsim.utils.spsim.stringology.html#langsim.utils.spsim.stringology.ed">[docs]</a><span class="k">def</span> <span class="nf">ed</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;edit distance</span>
+
+<span class="sd">    &gt;&gt;&gt; ed(&#39;&#39;, &#39;&#39;), ed(&#39;a&#39;, &#39;a&#39;), ed(&#39;&#39;,&#39;a&#39;), ed(&#39;a&#39;, &#39;&#39;), ed(&#39;a!a&#39;, &#39;a.a&#39;)</span>
+<span class="sd">    (0, 0, 1, 1, 1)</span>
+
+<span class="sd">    This implementation takes only O(min(|s1|,|s2|)) space.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span>         <span class="c1"># ensure n &lt;= m, to use O(min(n,m)) space</span>
+        <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">s2</span><span class="p">,</span> <span class="n">s1</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">s2</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">else</span> <span class="mi">1</span>
+            <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">d</span><span class="p">[</span><span class="n">n</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="ned"><a class="viewcode-back" href="../../../../api/langsim.utils.spsim.stringology.html#langsim.utils.spsim.stringology.ned">[docs]</a><span class="k">def</span> <span class="nf">ned</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span> <span class="k">return</span> <span class="n">ed</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="edsim"><a class="viewcode-back" href="../../../../api/langsim.utils.spsim.stringology.html#langsim.utils.spsim.stringology.edsim">[docs]</a><span class="k">def</span> <span class="nf">edsim</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span> <span class="k">return</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">ned</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="align"><a class="viewcode-back" href="../../../../api/langsim.utils.spsim.stringology.html#langsim.utils.spsim.stringology.align">[docs]</a><span class="k">def</span> <span class="nf">align</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">gap</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
+    <span class="sd">u&quot;&quot;&quot;aligns two strings</span>
+
+<span class="sd">    &gt;&gt;&gt; print u&quot;\\n&quot;.join(align(&#39;pharmacy&#39;, &#39;farmácia&#39;, gap=&#39;_&#39;))</span>
+<span class="sd">    pharmac_y</span>
+<span class="sd">    _farmácia</span>
+
+<span class="sd">    &gt;&gt;&gt; print u&quot;\\n&quot;.join(align(&#39;advantage&#39;, &#39;vantagem&#39;, gap=&#39;_&#39;))</span>
+<span class="sd">    advantage_</span>
+<span class="sd">    __vantagem</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># first we compute the dynamic programming table</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># the table is extended lazily, one row at a time</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="c1"># the first row is 0, 1, 2, ..., n</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="c1"># copy row and insert into table</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">s2</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">else</span> <span class="mi">1</span>
+            <span class="n">p</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">t</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="c1"># copy row and insert into table</span>
+    <span class="c1"># now we trace the best alignment path from cell [m][n] to cell [0],[0]</span>
+    <span class="n">s1_</span><span class="p">,</span> <span class="n">s2_</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">s1_</span><span class="p">,</span> <span class="n">s2_</span> <span class="o">=</span> <span class="nb">min</span><span class="p">((</span><span class="n">table</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">s1_</span><span class="p">,</span> <span class="n">s2</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">s2_</span><span class="p">),</span>
+                                <span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">s1_</span><span class="p">,</span> <span class="n">gap</span><span class="o">+</span><span class="n">s2_</span><span class="p">),</span>
+                                <span class="p">(</span><span class="n">table</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">gap</span><span class="o">+</span><span class="n">s1_</span><span class="p">,</span> <span class="n">s2</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">s2_</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">s1_</span> <span class="o">=</span> <span class="n">s1</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">s1_</span>
+        <span class="n">s2_</span> <span class="o">=</span> <span class="n">gap</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="n">s2_</span>
+    <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">s1_</span> <span class="o">=</span> <span class="n">gap</span><span class="o">*</span><span class="n">j</span><span class="o">+</span><span class="n">s1_</span>
+        <span class="n">s2_</span> <span class="o">=</span> <span class="n">s2</span><span class="p">[:</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="n">s2_</span>
+    <span class="k">return</span> <span class="n">s1_</span><span class="p">,</span> <span class="n">s2_</span></div>
+
+
+<div class="viewcode-block" id="mismatches"><a class="viewcode-back" href="../../../../api/langsim.utils.spsim.stringology.html#langsim.utils.spsim.stringology.mismatches">[docs]</a><span class="k">def</span> <span class="nf">mismatches</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;extract mismatched segments from aligned strings</span>
+
+<span class="sd">    &gt;&gt;&gt; list(mismatches(*align(&#39;pharmacy&#39;, &#39;farmácia&#39;), context=1))</span>
+<span class="sd">    [(&#39;pha&#39;, &#39; fa&#39;), (&#39;mac&#39;, &#39;mác&#39;), (&#39;c y&#39;, &#39;cia&#39;)]</span>
+
+<span class="sd">    &gt;&gt;&gt; list(mismatches(*align(&#39;constitution&#39;, &#39;constituição&#39;), context=1))</span>
+<span class="sd">    [(&#39;ution&#39;, &#39;uição&#39;)]</span>
+
+<span class="sd">    &gt;&gt;&gt; list(mismatches(*align(&#39;idea&#39;, &#39;ideia&#39;), context=1))</span>
+<span class="sd">    [(&#39;e a&#39;, &#39;eia&#39;)]</span>
+
+<span class="sd">    &gt;&gt;&gt; list(mismatches(*align(&#39;instructed&#39;, &#39;instruído&#39;), context=1))</span>
+<span class="sd">    [(&#39;ucted&#39;, &#39;u ído&#39;)]</span>
+
+<span class="sd">    &gt;&gt;&gt; list(mismatches(*align(&#39;concluded&#39;, &#39;concluído&#39;), context=1))</span>
+<span class="sd">    [(&#39;uded&#39;, &#39;uído&#39;)]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">lct</span><span class="p">,</span> <span class="n">rct</span> <span class="o">=</span> <span class="n">context</span><span class="p">,</span> <span class="n">context</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="n">context</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">s1</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">s2</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="c1"># report mismatch segment [i:j] with lct chars of left context</span>
+                <span class="c1"># and rct chars of right context</span>
+                <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="n">lct</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="n">rct</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">s1</span><span class="p">[</span><span class="n">p</span><span class="p">:</span><span class="n">q</span><span class="p">],</span> <span class="n">s2</span><span class="p">[</span><span class="n">p</span><span class="p">:</span><span class="n">q</span><span class="p">]</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">j</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="n">lct</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">s1</span><span class="p">[</span><span class="n">p</span><span class="p">:],</span> <span class="n">s2</span><span class="p">[</span><span class="n">p</span><span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="llcs"><a class="viewcode-back" href="../../../../api/langsim.utils.spsim.stringology.html#langsim.utils.spsim.stringology.llcs">[docs]</a><span class="k">def</span> <span class="nf">llcs</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;length of the longest common sequence</span>
+
+<span class="sd">    This implementation takes O(len(s1) * len(s2)) time and</span>
+<span class="sd">    O(min(len(s1), len(s2))) space.</span>
+
+<span class="sd">    Use only with short strings.</span>
+
+<span class="sd">    &gt;&gt;&gt; llcs(&#39;a.b.cd&#39;,&#39;!a!b!c!!!d!&#39;)</span>
+<span class="sd">    4</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span> <span class="c1"># ensure n &lt;= m, to use O(min(n,m)) space</span>
+        <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span>
+        <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">s2</span><span class="p">,</span> <span class="n">s1</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">s2</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="n">p</span><span class="p">,</span> <span class="n">l</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="nb">max</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">t</span><span class="p">,</span> <span class="n">l</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">l</span><span class="p">[</span><span class="n">n</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="lcsr"><a class="viewcode-back" href="../../../../api/langsim.utils.spsim.stringology.html#langsim.utils.spsim.stringology.lcsr">[docs]</a><span class="k">def</span> <span class="nf">lcsr</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; lcs ratio (0 &lt;= lcsr(s1, s2) &lt;= 1) &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">llcs</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="lcp"><a class="viewcode-back" href="../../../../api/langsim.utils.spsim.stringology.html#langsim.utils.spsim.stringology.lcp">[docs]</a><span class="k">def</span> <span class="nf">lcp</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;longest common prefix</span>
+
+<span class="sd">    &gt;&gt;&gt; lcp(&#39;abcdx&#39;, &#39;abcdy&#39;), lcp(&#39;&#39;, &#39;a&#39;), lcp(&#39;x&#39;, &#39;yz&#39;)</span>
+<span class="sd">    (4, 0, 0)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">c1</span> <span class="o">!=</span> <span class="n">c2</span><span class="p">:</span> <span class="k">break</span>
+    <span class="k">return</span> <span class="n">i</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../spsim.html" >langsim.utils.spsim</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2018, Mark Granroth-Wilding.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

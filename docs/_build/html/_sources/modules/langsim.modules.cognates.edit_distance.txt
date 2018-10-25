@@ -1,0 +1,50 @@
+Edit distance cognate finder
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:module:: langsim.modules.cognates.edit_distance
+
++------------+----------------------------------------+
+| Path       | langsim.modules.cognates.edit_distance |
++------------+----------------------------------------+
+| Executable | yes                                    |
++------------+----------------------------------------+
+
+Search for potential cognates in unaligned corpora using an edit distance metric that uses
+phoneme distances learned from one of the phoneme embedding models.
+
+
+Inputs
+======
+
++------------+-------------------------------------------------------------------------------------------------------------------------------+
+| Name       | Type(s)                                                                                                                       |
++============+===============================================================================================================================+
+| embeddings | :class:`PhonemeEmbeddingsDatatype <langsim.modules.local_lm.phoneme_embedding.datatypes.PhonemeEmbeddingsDatatype>`           |
++------------+-------------------------------------------------------------------------------------------------------------------------------+
+| corpora    | :class:`list <pimlico.datatypes.base.MultipleInputs>` of :class:`WordDictionary <langsim.datatypes.word_dict.WordDictionary>` |
++------------+-------------------------------------------------------------------------------------------------------------------------------+
+
+Outputs
+=======
+
++---------+--------------------------------------------+
+| Name    | Type(s)                                    |
++=========+============================================+
+| summary | :func:`~pimlico.datatypes.files.NamedFile` |
++---------+--------------------------------------------+
+
+Options
+=======
+
++---------------------+---------------------------------------------------------------------------------------------------------------+------+
+| Name                | Description                                                                                                   | Type |
++=====================+===============================================================================================================+======+
+| min_word_length     | Min length of word in phonemes                                                                                | int  |
++---------------------+---------------------------------------------------------------------------------------------------------------+------+
+| candidates_per_word | Number of potential cognates to keep per source word. Default: 10                                             | int  |
++---------------------+---------------------------------------------------------------------------------------------------------------+------+
+| corpus1_words       | Number of words in corpus 1 to test against each corpus 0 word for cognateness                                | int  |
++---------------------+---------------------------------------------------------------------------------------------------------------+------+
+| corpus0_words       | Number of words in corpus 0 to test against language 1 for cognates. Typically a smaller number than corpus 1 | int  |
++---------------------+---------------------------------------------------------------------------------------------------------------+------+
+

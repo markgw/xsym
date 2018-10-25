@@ -1,0 +1,35 @@
+Phoneme pairings from vocab overlap
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:module:: langsim.modules.cognates.phoneme_pair_weights.overlap
+
++------------+-------------------------------------------------------+
+| Path       | langsim.modules.cognates.phoneme_pair_weights.overlap |
++------------+-------------------------------------------------------+
+| Executable | yes                                                   |
++------------+-------------------------------------------------------+
+
+Simple computation of phoneme pairing weights by just setting overlapping phonemes between the vocabularies
+to have a weight dependent on their frequency and non-overlapping to have zero weight.
+
+
+Inputs
+======
+
++------------+----------------------------------------------------------------------+
+| Name       | Type(s)                                                              |
++============+======================================================================+
+| word_list1 | :class:`WordDictionary <langsim.datatypes.word_dict.WordDictionary>` |
++------------+----------------------------------------------------------------------+
+| word_list2 | :class:`WordDictionary <langsim.datatypes.word_dict.WordDictionary>` |
++------------+----------------------------------------------------------------------+
+
+Outputs
+=======
+
++---------+-----------------------------------------------+
+| Name    | Type(s)                                       |
++=========+===============================================+
+| weights | :class:`~pimlico.datatypes.arrays.NumpyArray` |
++---------+-----------------------------------------------+
+

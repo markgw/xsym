@@ -1,0 +1,273 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>langsim.datatypes.kondrak module &mdash; Langsim 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Langsim 1.0 documentation" href="../index.html"/>
+        <link rel="up" title="langsim.datatypes package" href="langsim.datatypes.html"/>
+        <link rel="next" title="langsim.datatypes.raw_lines module" href="langsim.datatypes.raw_lines.html"/>
+        <link rel="prev" title="langsim.datatypes.fake module" href="langsim.datatypes.fake.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Langsim
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../modules/langsim.modules.html">Pimlico modules</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="langsim.html">API docs</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="langsim.datatypes.html">langsim.datatypes package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="langsim.datatypes.fake.html">langsim.datatypes.fake module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">langsim.datatypes.kondrak module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.datatypes.raw_lines.html">langsim.datatypes.raw_lines module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.datatypes.word2vecf.html">langsim.datatypes.word2vecf module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="langsim.datatypes.word_dict.html">langsim.datatypes.word_dict module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="langsim.utils.html">langsim.utils package</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Langsim</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="langsim.html">langsim package</a> &raquo;</li>
+      
+          <li><a href="langsim.datatypes.html">langsim.datatypes package</a> &raquo;</li>
+      
+    <li>langsim.datatypes.kondrak module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api/langsim.datatypes.kondrak.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-langsim.datatypes.kondrak">
+<span id="langsim-datatypes-kondrak-module"></span><h1>langsim.datatypes.kondrak module<a class="headerlink" href="#module-langsim.datatypes.kondrak" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="langsim.datatypes.kondrak.KondrakAlgorithmOutput">
+<em class="property">class </em><code class="descname">KondrakAlgorithmOutput</code><span class="sig-paren">(</span><em>base_dir</em>, <em>pipeline</em>, <em>module=None</em>, <em>additional_name=None</em>, <em>use_main_metadata=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/kondrak.html#KondrakAlgorithmOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.kondrak.KondrakAlgorithmOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pimlico.datatypes.files.NamedFileCollection</span></code></p>
+<dl class="attribute">
+<dt id="langsim.datatypes.kondrak.KondrakAlgorithmOutput.datatype_name">
+<code class="descname">datatype_name</code><em class="property"> = 'kondrak_output'</em><a class="headerlink" href="#langsim.datatypes.kondrak.KondrakAlgorithmOutput.datatype_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="langsim.datatypes.kondrak.KondrakAlgorithmOutput.filenames">
+<code class="descname">filenames</code><em class="property"> = ['weights.npy']</em><a class="headerlink" href="#langsim.datatypes.kondrak.KondrakAlgorithmOutput.filenames" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="langsim.datatypes.kondrak.KondrakAlgorithmOutput.weights">
+<code class="descname">weights</code><a class="headerlink" href="#langsim.datatypes.kondrak.KondrakAlgorithmOutput.weights" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.datatypes.kondrak.KondrakAlgorithmOutput.get_software_dependencies">
+<code class="descname">get_software_dependencies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/kondrak.html#KondrakAlgorithmOutput.get_software_dependencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.kondrak.KondrakAlgorithmOutput.get_software_dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="langsim.datatypes.kondrak.KondrakAlgorithmOutputWriter">
+<em class="property">class </em><code class="descname">KondrakAlgorithmOutputWriter</code><span class="sig-paren">(</span><em>base_dir</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/kondrak.html#KondrakAlgorithmOutputWriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.kondrak.KondrakAlgorithmOutputWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">pimlico.datatypes.files.NamedFileCollectionWriter</span></code></p>
+<dl class="attribute">
+<dt id="langsim.datatypes.kondrak.KondrakAlgorithmOutputWriter.filenames">
+<code class="descname">filenames</code><em class="property"> = ['weights.npy', 'word_alignments.txt', 'phoneme_alignments.txt']</em><a class="headerlink" href="#langsim.datatypes.kondrak.KondrakAlgorithmOutputWriter.filenames" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.datatypes.kondrak.KondrakAlgorithmOutputWriter.write_word_alignments">
+<code class="descname">write_word_alignments</code><span class="sig-paren">(</span><em>scored_word_pairs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/kondrak.html#KondrakAlgorithmOutputWriter.write_word_alignments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.kondrak.KondrakAlgorithmOutputWriter.write_word_alignments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.datatypes.kondrak.KondrakAlgorithmOutputWriter.write_array">
+<code class="descname">write_array</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/kondrak.html#KondrakAlgorithmOutputWriter.write_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.kondrak.KondrakAlgorithmOutputWriter.write_array" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="langsim.datatypes.kondrak.KondrakAlgorithmOutputWriter.write_phoneme_alignments">
+<code class="descname">write_phoneme_alignments</code><span class="sig-paren">(</span><em>scored_phoneme_pairs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/langsim/datatypes/kondrak.html#KondrakAlgorithmOutputWriter.write_phoneme_alignments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#langsim.datatypes.kondrak.KondrakAlgorithmOutputWriter.write_phoneme_alignments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="langsim.datatypes.raw_lines.html" class="btn btn-neutral float-right" title="langsim.datatypes.raw_lines module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="langsim.datatypes.fake.html" class="btn btn-neutral" title="langsim.datatypes.fake module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Mark Granroth-Wilding.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

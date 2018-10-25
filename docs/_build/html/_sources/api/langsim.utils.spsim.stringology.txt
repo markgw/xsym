@@ -1,0 +1,7 @@
+langsim\.utils\.spsim\.stringology module
+=========================================
+
+.. automodule:: langsim.utils.spsim.stringology
+    :members:
+    :undoc-members:
+    :show-inheritance:

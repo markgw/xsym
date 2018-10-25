@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>langsim.datatypes.word2vecf &mdash; Xsym training 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Xsym training 1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../../../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body role="document">
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for langsim.datatypes.word2vecf</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="kn">from</span> <span class="nn">pimlico.datatypes.base</span> <span class="kn">import</span> <span class="n">PimlicoDatatypeWriter</span>
+<span class="kn">from</span> <span class="nn">pimlico.datatypes.files</span> <span class="kn">import</span> <span class="n">NamedFileCollection</span><span class="p">,</span> <span class="n">NamedFileCollectionWriter</span>
+
+
+<div class="viewcode-block" id="Word2VecFInput"><a class="viewcode-back" href="../../../api/langsim.datatypes.word2vecf.html#langsim.datatypes.word2vecf.Word2VecFInput">[docs]</a><span class="k">class</span> <span class="nc">Word2VecFInput</span><span class="p">(</span><span class="n">NamedFileCollection</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Datatype that collects together the files required as input to the word2vecf tool.</span>
+
+<span class="sd">    These are:</span>
+
+<span class="sd">    ``training_data``</span>
+<span class="sd">       Word-context pairs, stored in a (probably massive) file with one pair on every line. The word is</span>
+<span class="sd">       separated from the context feature by a space, so spaces are encoded specially.</span>
+
+<span class="sd">    ``word_vocabulary``</span>
+<span class="sd">       Vocabulary of words from the word-context pairs. Simply a list of words with a frequency count</span>
+<span class="sd">       for each.</span>
+
+<span class="sd">    ``context_vocabulary``</span>
+<span class="sd">       Same as ``word_vocabulary``, but for the context features.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">datatype_name</span> <span class="o">=</span> <span class="s2">&quot;word2vecf_input&quot;</span>
+    <span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;training_data&quot;</span><span class="p">,</span> <span class="s2">&quot;word_vocabulary&quot;</span><span class="p">,</span> <span class="s2">&quot;context_vocabulary&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Word2VecFInputWriter"><a class="viewcode-back" href="../../../api/langsim.datatypes.word2vecf.html#langsim.datatypes.word2vecf.Word2VecFInputWriter">[docs]</a><span class="k">class</span> <span class="nc">Word2VecFInputWriter</span><span class="p">(</span><span class="n">PimlicoDatatypeWriter</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_dir</span><span class="p">,</span> <span class="n">min_count</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Word2VecFInputWriter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_count</span> <span class="o">=</span> <span class="n">min_count</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_training_data_file</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_word_vocab</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_context_vocab</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Word2VecFInputWriter.write_word_context_pair"><a class="viewcode-back" href="../../../api/langsim.datatypes.word2vecf.html#langsim.datatypes.word2vecf.Word2VecFInputWriter.write_word_context_pair">[docs]</a>    <span class="k">def</span> <span class="nf">write_word_context_pair</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="c1"># Neither word nor context should have spaces in them, so escape them</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">u&quot; &quot;</span><span class="p">,</span> <span class="s2">u&quot;&lt;SPACE&gt;&quot;</span><span class="p">)</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">u&quot; &quot;</span><span class="p">,</span> <span class="s2">u&quot;&lt;SPACE&gt;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_training_data_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">u&quot;{} {}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+        <span class="c1"># Record the occurrence of word and context for writing vocabularies later</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_word_vocab</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="n">word</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_context_vocab</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="n">context</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="Word2VecFInputWriter.write_word_context_pairs"><a class="viewcode-back" href="../../../api/langsim.datatypes.word2vecf.html#langsim.datatypes.word2vecf.Word2VecFInputWriter.write_word_context_pairs">[docs]</a>    <span class="k">def</span> <span class="nf">write_word_context_pairs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a sequence of word-context pairs to the training and the word and context vocabularies.</span>
+<span class="sd">        Training data is written out immediately. The counts are accumulated for the vocabularies</span>
+<span class="sd">        until the end of the context manager block, when they&#39;re written out.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">context</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_word_context_pair</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Word2VecFInputWriter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__enter__</span><span class="p">()</span>
+        <span class="c1"># Open file that we&#39;ll write the training data to</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_training_data_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="s2">&quot;training_data&quot;</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="c1"># Close the training data file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_training_data_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="c1"># Write out the vocabularies</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="s2">&quot;word_vocabulary&quot;</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">u&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="s2">u&quot;{} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_word_vocab</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_count</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="s2">&quot;context_vocabulary&quot;</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                <span class="s2">u&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="s2">u&quot;{} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_context_vocab</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_count</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf8&quot;</span><span class="p">))</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Word2VecFInputWriter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__exit__</span><span class="p">(</span><span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Word2VecFOutput"><a class="viewcode-back" href="../../../api/langsim.datatypes.word2vecf.html#langsim.datatypes.word2vecf.Word2VecFOutput">[docs]</a><span class="k">class</span> <span class="nc">Word2VecFOutput</span><span class="p">(</span><span class="n">NamedFileCollection</span><span class="p">):</span>
+    <span class="n">datatype_name</span> <span class="o">=</span> <span class="s2">&quot;word2vecf_output&quot;</span>
+    <span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;word_vectors&quot;</span><span class="p">,</span> <span class="s2">&quot;context_vectors&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Word2VecFOutputWriter"><a class="viewcode-back" href="../../../api/langsim.datatypes.word2vecf.html#langsim.datatypes.word2vecf.Word2VecFOutputWriter">[docs]</a><span class="k">class</span> <span class="nc">Word2VecFOutputWriter</span><span class="p">(</span><span class="n">NamedFileCollectionWriter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Not typically used to write out the files, since word2vecf does that directly, but provides easy</span>
+<span class="sd">    access to the absolute paths.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;word_vectors&quot;</span><span class="p">,</span> <span class="s2">&quot;context_vectors&quot;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">word_vector_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_absolute_path</span><span class="p">(</span><span class="s2">&quot;word_vectors&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">context_vector_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_absolute_path</span><span class="p">(</span><span class="s2">&quot;context_vectors&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Xsym training 1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2018, Mark Granroth-Wilding.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>

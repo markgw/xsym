@@ -1,0 +1,43 @@
+Phoneme embedding filter
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. py:module:: langsim.modules.local_lm.phoneme_embedding
+
++------------+--------------------------------------------+
+| Path       | langsim.modules.local_lm.phoneme_embedding |
++------------+--------------------------------------------+
+| Executable | no                                         |
++------------+--------------------------------------------+
+
+
+This is a filter module. It is not executable, so won't appear in a pipeline's list of modules that can be run. It produces its output for the next module on the fly when the next module needs it.
+
+Inputs
+======
+
++--------+------------------------------------------------------------------------------------------------------------------------+
+| Name   | Type(s)                                                                                                                |
++========+========================================================================================================================+
+| model  | :class:`KerasModelBuilderClass <pimlico.datatypes.keras.KerasModelBuilderClass>`                                       |
++--------+------------------------------------------------------------------------------------------------------------------------+
+| vocabs | :class:`list <pimlico.datatypes.base.MultipleInputs>` of :class:`Dictionary <pimlico.datatypes.dictionary.Dictionary>` |
++--------+------------------------------------------------------------------------------------------------------------------------+
+
+Outputs
+=======
+
++------------+------------------------------------------------------------------------------------------+
+| Name       | Type(s)                                                                                  |
++============+==========================================================================================+
+| embeddings | :class:`~langsim.modules.local_lm.phoneme_embedding.datatypes.PhonemeEmbeddingsDatatype` |
++------------+------------------------------------------------------------------------------------------+
+
+Options
+=======
+
++------------+-------------------------------------------------------------------+---------------------------------+
+| Name       | Description                                                       | Type                            |
++============+===================================================================+=================================+
+| lang_names | Comma-separated list of language IDs to associate with the vocabs | comma-separated list of strings |
++------------+-------------------------------------------------------------------+---------------------------------+
+

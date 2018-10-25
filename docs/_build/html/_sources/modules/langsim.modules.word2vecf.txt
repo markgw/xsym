@@ -1,0 +1,14 @@
+Word2vecf tools
+~~~~~~~~~~~~~~~
+
+
+.. py:module:: langsim.modules.word2vecf
+
+
+
+.. toctree::
+   :maxdepth: 2
+   :titlesonly:
+
+   langsim.modules.word2vecf.phoneme_embed_features
+   langsim.modules.word2vecf.train
