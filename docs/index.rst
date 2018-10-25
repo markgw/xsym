@@ -7,7 +7,7 @@
  | In proceedings `Society for Computation in Linguistics (SCiL) <https://blogs.umass.edu/scil/scil-2019/>`_
 
 This codebase contains the code used to prepare data and train models for this paper.
-In the paper, the model is called **Xsym**. In this code, it is called **neural_sixgram**.
+The code is released on `Github <https://github.com/markgw/xsym>`_.
 
 For more information about the paper, including downloadable pre-trained embeddings,
 `see here <https://mark.granroth-wilding.co.uk/papers/unsup_symbol/>`_.
@@ -21,6 +21,7 @@ old code from various experiments carried out over a number of years. Hopefully,
 I've not removed anything important, but `get in touch with Mark <https://mark.granroth-wilding.co.uk/>`_
 if something seems to be missing.
 
+In the paper, the model is called **Xsym**. In this code, it is called **neural_sixgram**.
 
 Getting started
 ===============
@@ -29,7 +30,7 @@ else's code <https://pimlico.readthedocs.io/en/latest/guides/bootstrap.html>`_.
 
 In short...
 
- * Download this codebase and extract it.
+ * `Download the codebase <https://github.com/markgw/xsym>`_ and extract it.
  * Download the `bootstrap.py <https://raw.githubusercontent.com/markgw/pimlico/master/admin/bootstrap.py>`_ script from Pimlico
    to the root directory of the codebase.
  * In the root directory, run: ``python bootstrap.py pipelines/char_embed_corpora.conf``

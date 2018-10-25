@@ -7,6 +7,8 @@ This code is released to accompany our SCiL 2019 paper:
 **Mark Granroth-Wilding and Hannu Toivonen (2019)**  
 In proceedings Society for Computation in Linguistics (SCiL)
 
-See the [project documentation](docs/_build/html/index.html) for info about this codebase.
+The code is released on [Github](https://github.com/markgw/xsym).
 
-Uses [Pimlico](http://pimlico.readthedocs.io).
+Read the [project documentation](https://xsym.readthedocs.io/) for more info.
+
+The project uses [Pimlico](http://pimlico.readthedocs.io).
